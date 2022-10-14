@@ -20,15 +20,15 @@ print(the_spisok[2:0:-1])   # >>> [321, '123']
 the_slovar = {5: "The Zero",
               1: "Sweet home Alabama",
               2: "Paint it Black"}
-print(the_slovar) # >>> print(the_slovar)
-print(the_slovar[5]) # >>> The Zero
-the_2nd_slovar={"City": "Zelenograd",
-                "District": 14,
-                "Building:": 1435}
-print(the_2nd_slovar)   # >>> {'City': 'Zelenograd', 'District': 14,
-                        # 'Building:': 1435}
-print(the_2nd_slovar["District"]) # >>> 14
-the_3rd_slovar={45: "The forty-five",
-                "Five": "V"}
-print(the_3rd_slovar[45]) # >>> The forty-five
-print(the_3rd_slovar["Five"]) # >>> V
+print(the_slovar)  # >>> print(the_slovar)
+print(the_slovar[5])  # >>> The Zero
+the_2nd_slovar = {"City": "Zelenograd",
+                  "District": 14,
+                  "Building:": 1435}
+print(the_2nd_slovar)  # >>> {'City': 'Zelenograd', 'District': 14,
+# 'Building:': 1435}
+print(the_2nd_slovar["District"])  # >>> 14
+the_3rd_slovar = {45: "The forty-five",
+                  "Five": "V"}
+print(the_3rd_slovar[45])  # >>> The forty-five
+print(the_3rd_slovar["Five"])  # >>> V
