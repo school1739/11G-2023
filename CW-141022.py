@@ -4,12 +4,12 @@
 # print(type(a))# ввод типа переменной
 
 
-# the_spisok = [123, '123']
-# print(the_spisok)
-# print(the_spisok[1])
-#
-# the_spisok.append(321)
-# print(the_spisok)
+the_spisok = [123, '123']
+print(the_spisok)
+print(the_spisok[1])
+
+the_spisok.append(321)
+print(the_spisok)
 # print(the_spisok[1:2])
 #
 # print(the_spisok[2:0:-1])
@@ -33,3 +33,4 @@ Aboba={45:'The forty-five',
        'Five': "V"}
 print (Aboba[45])
 print(Aboba['Five'])
+
