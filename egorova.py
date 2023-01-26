@@ -1,6 +1,6 @@
 print("Hello, world!")
 #Eгорова Евгения Сергеевна
-vocabulary imitating stakanov = {'stakanchikONE' : [1,2,1,2,1,2],
+vocabulary_imitating_stakanov = {'stakanchikONE' : [1,2,1,2,1,2],
                                  'stakanchikTWO' : [1,2,1,2,1,2],
                                  'stakanchikTHREE' : [1,2,1,2,1,2],
                                  'stakanchikFOUR' : [1,2,1,2,1,2],
