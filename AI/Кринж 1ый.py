@@ -1,1 +1,1 @@
-print('CRINGGGGEEEEEEE')
+print('Cringe')
