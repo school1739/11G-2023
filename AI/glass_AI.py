@@ -30,7 +30,10 @@ ai_is_winner = False  # маркер победы ИИ (первым ходит 
 
 def move(situation):  # сделать ход (выбрать случайную бумажку из стакана и вернуть значение)
     print("Ходит ИИ:")
-    the_move = random.choice(the_glasses[situation])
+    if situation == 1:
+        the_move = 1
+    else:
+        the_move = random.choice(the_glasses[situation])
     print(f"ИИ взял {the_move} палочек.")
     return the_move
 
@@ -39,12 +42,31 @@ def used_glass_fill(situation, move):  # записать использован
     used_glasses.update({situation: move})
 
 
-print(f"На столе {situation} палочек.")
-if ai_is_winner == False:
-    choice = int(input("Сколько палочек взять (1 или 2): "))
-    while choice != 1 and choice != 2:
-        choice = int(input("Сказано же, дебил, одну или две!"))  # Человек выбирает сколько взять
-    situation = situation - choice  # Обновление игровой ситуации
-    print(f"На столе {situation} палочек.")
-    situation = situation - move(situation)  # Ход ИИ, обновление ситуации
-    print(f"На столе {situation} палочек.")
+print(f'На столе {situation} палочек')
+while situation > 0:
+    if ai_is_winner == False:
+        if situation == 0:
+            print("Пользователь проиграл, ИИ выиграл")
+            ai_is_winner = True
+        elif situation == 1:
+            situation -= 1
+            print('Ходит пользователь')
+            print('Пользователю ничего не остаётся, кроме как взять 1 палочку')
+            print(f'На столе {situation} палочек')
+            print("Пользователь проиграл, ИИ выиграл")
+            ai_is_winner = True
+            break
+
+        choice = int(input('Сколько палочек взять? 1 или 2?'))
+        while choice != 1 and choice != 2:
+            choice = int(input("Сказано же, одну или две! "))  # Человек выбирает сколько взять
+        situation = situation - choice  # Обновление игровой ситуации
+        print(f'На столе {situation} палочек')
+        if situation == 0:
+            print('ИИ проиграл, пользователь выиграл')
+        else:
+            situation = situation - move(situation)  # Ход ИИ, обновление ситуации
+            print(f'На столе {situation} палочек')
+
+            if situation == 0:
+                print('ИИ проиграл, пользователь выиграл')
