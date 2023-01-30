@@ -35,11 +35,12 @@ def move(situation):  # сделать ход (выбрать случайную
     else:
         the_move = random.choice(the_glasses[situation])
     print(f"ИИ взял {the_move} палочек.")
+    used_glasses.update({situation: the_move})
     return the_move
 
 
-def used_glass_fill(situation, move):  # записать использованные стаканы и бумажки)
-    used_glasses.update({situation: move})
+def used_glass_fill():
+    pass
 
 
 print(f'На столе {situation} палочек')
