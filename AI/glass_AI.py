@@ -32,6 +32,13 @@ def ai_move(situation):  # сделать ход (выбрать случайн�
         the_move = random.choice(the_glasses[situation])
     print(f"ИИ взял {the_move} палочек.")
     used_glasses.update({situation: the_move})
+    situation -= the_move
+    return the_move, situation
+
+
+def human_move(situation):  # ход человека
+    print("Ходит человек:")
+    the_move = int(input("Введите количество палочек: "))
     return the_move
 
 
@@ -59,8 +66,17 @@ def used_glass_fill():  # обновляем бумажки в использо�
         for key, value in used_glasses.items():
             the_glasses[key].remove(value)
 
+def the_round(winner):
+    global situation
+    while situation > 0:
+        if winner == ai_is_winner:
+            print("ИИ ходит первым.")
+            ai_move(situation)
+        else:
+            print("Человек ходит первым.")
+            human_move(situation)
 
-def the_round():
+"""def the_round():
     global situation
     while situation > 0:
         if not ai_is_winner:
@@ -84,13 +100,12 @@ def the_round():
                 situation = situation - ai_move(situation)  # Ход ИИ, обновление ситуации
                 print(f'На столе {situation} палочек')
                 if situation == 0:
-                    human_win()
-
+                    human_win()"""
 
 print(f'На столе {situation} палочек')
 
 while human_score < MAX_SCORE and ai_score < MAX_SCORE:
-    the_round()
+    the_round(ai_is_winner)
     situation = 11
     print(f'Счёт: {human_score} - {ai_score}')
     print(used_glasses)
