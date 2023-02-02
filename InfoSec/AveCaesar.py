@@ -36,8 +36,10 @@ match mode_choice:
         print(answer)
 
     case 3:
-        iterate_text(text, "bruteforce")
-        print(answer)
+        for i in range(1, 32):
+            iterate_text(text, "bruteforce")
+            print(f"Сдвиг {i}: {answer}")
+            answer = ""
 
     case _:
         print("Неверный режим работы")
