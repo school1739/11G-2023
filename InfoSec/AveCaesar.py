@@ -1,34 +1,39 @@
 RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+answer = ""
 
-mode_choice = input("Выберите режим работы:\n1 - шифрование\n2 - дешифрование\n3 - bruteforce\n")
-while mode_choice not in "123":
+mode_choice = input("Выберите режим работы:\n"  # Ввод режима работы
+                    "1 - шифрование\n"
+                    "2 - дешифрование\n"
+                    "3 - bruteforce\n")
+while mode_choice not in "123":  # Защита от дурака
     mode_choice = input("Неверный режим работы. Попробуйте ещё раз: ")
 mode_choice = int(mode_choice)
 
-text = input("Введите текст: ").upper()
-answer = ""
+text = input("Введите текст: ").upper()  # Ввод исходного сообщения
 
 
-def iterate_text(text, mode):
-    global answer
-    match mode:
-        case "encrypt":
+def iterate_text(text, mode):  # Проход по символам исходного сообщения
+    global answer  # Будем записывать ответ в глобальную переменную
+    match mode:  # Выбор режима работы
+        case "encrypt":  # Шифрование
             op = "+ offset"
-        case "decrypt":
+        case "decrypt":  # Дешифрование
             op = "- offset"
-        case "bruteforce":
+        case "bruteforce":  # Атака перебором
             op = "- i"
-    for letter in text:
-        if letter in RUS_ALPHA:
-            answer += RUS_ALPHA[eval("RUS_ALPHA.index(letter)" + op + "% len(RUS_ALPHA)")]
-        elif letter in ENG_ALPHA:
-            answer += ENG_ALPHA[eval("(ENG_ALPHA.index(letter)" + op + "% len(ENG_ALPHA)")]
+    for letter in text:  # Проход по символам
+        if letter in RUS_ALPHA:  # Если символ - русская буква
+            answer += RUS_ALPHA[eval(
+                "RUS_ALPHA.index(letter)" + op + "% len(RUS_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
+        elif letter in ENG_ALPHA:  # Если символ - английская буква
+            answer += ENG_ALPHA[eval(
+                "(ENG_ALPHA.index(letter)" + op + "% len(ENG_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
         else:
-            answer += letter
+            answer += letter  # Если символ не буква, то просто добавляем его в ответ
 
 
-match mode_choice:
+match mode_choice:  # Включение режима работы, соответствующего выбранному пользователем
     case 1:
         offset = int(input("Введите сдвиг: "))
         iterate_text(text, "encrypt")
@@ -45,5 +50,5 @@ match mode_choice:
             print(f"Сдвиг {i}: {answer}")
             answer = ""
 
-    case _:
+    case _: # Защита от дурака
         print("Неверный режим работы")
