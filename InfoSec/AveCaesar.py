@@ -1,6 +1,10 @@
-mode_choice = int(input("Выберите режим работы: 1 - шифрование, 2 - дешифрование, 3 - bruteforce: "))
 RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+mode_choice = input("Выберите режим работы:\n1 - шифрование\n2 - дешифрование\n3 - bruteforce\n")
+while mode_choice not in "123":
+    mode_choice = input("Неверный режим работы. Попробуйте ещё раз: ")
+mode_choice = int(mode_choice)
 
 text = input("Введите текст: ").upper()
 answer = ""
