@@ -90,5 +90,5 @@ if ai_is_winner == True:
   print('По итогам игры победил ИИ')
 else:
   print('По итогам игры победил Человек')
-#print(the_glasses)
+  print(the_glasses)
 
