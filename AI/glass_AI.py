@@ -114,35 +114,34 @@ def ai_start():  # Начало компьютера
 
 def check_win():
     global ai_wins, player_wins
-    if player_wins == 10:
-        print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
-        print("Победил игрок, он набрал 10 очков")
-    elif ai_wins == 10:
-        print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
-        print("Победил компьютер, он набрал 10 очков")
-    else:
-        if ai_is_winner:
-            ai_wins += 1
-            if start_ai:
-                for chosen_numbers in keys:
-                    the_glasses_start_ai[chosen_numbers].append(used_glasses[chosen_numbers])
-            else:
-                for chosen_numbers in keys:
-                    the_glasses[chosen_numbers].append(used_glasses[chosen_numbers])
+    if ai_is_winner:
+        ai_wins += 1
+        if ai_wins == 10:
             print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
-            print(f"Словарь с началом игрока{the_glasses} \n Словарь с началом компьютера{the_glasses_start_ai}")
-            ai_start()
+            print("Победил компьютер, он набрал 10 очков")
+            exit()
+        if start_ai:
+            for chosen_numbers in keys:
+                the_glasses_start_ai[chosen_numbers].append(used_glasses[chosen_numbers])
         else:
-            player_wins += 1
-            if start_ai:
-                for chosen_numbers in keys:
-                    the_glasses_start_ai[chosen_numbers].remove(used_glasses[chosen_numbers])
-            else:
-                for chosen_numbers in keys:
-                    the_glasses[chosen_numbers].remove(used_glasses[chosen_numbers])
+            for chosen_numbers in keys:
+                the_glasses[chosen_numbers].append(used_glasses[chosen_numbers])
+        print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+        ai_start()
+    else:
+        player_wins += 1
+        if player_wins == 10:
             print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
-            print(f"Словарь с началом игрока{the_glasses} \n Словарь с началом компьютера{the_glasses_start_ai}")
-            player_start()
+            print("Победил игрок, он набрал 10 очков")
+            exit()
+        if start_ai:
+            for chosen_numbers in keys:
+                the_glasses_start_ai[chosen_numbers].remove(used_glasses[chosen_numbers])
+        else:
+            for chosen_numbers in keys:
+                the_glasses[chosen_numbers].remove(used_glasses[chosen_numbers])
+        print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+        player_start()
 
 
 # print(the_glasses)
