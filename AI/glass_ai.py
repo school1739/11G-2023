@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1tcxG_NzeywmAb3EHPxqMoScAcpGOv9aB
 """
 
-# АВТОРЫ: папавпыгврпзшщгвпгышщ
+# АВТОРЫ: Гончаров Евгений
 import random # импорт библиотеки случайных чисел
 
 # Создаём словарь стаканов
@@ -45,7 +45,7 @@ def humanTurn(situation):
     move = 1
   else:
     move = input("Выберите число 1 или 2 : ")
-    while int(move) != 1 and int(move) != 2:
+    while move != "1" and move != "2":
       move = input("Некорректный ввод. Выберите число 1 или 2 : ")
   print(f"Человек выбрал : {int(move)}")
   return int(move)
