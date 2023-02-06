@@ -1,20 +1,29 @@
-def perceptron(sensor):
-    Theta = 7  # Порог функции активации
-    S = 0  # Начальное значение суммы
-    for i in range(15):  # цикл суммирования сигналов от сенсоров
-        S += int(sensor[i]) * weights[i]
-    if S >= Theta:
-        return True  # Сумма превысила порог
-    else:
-        return False  # Сумма меньше порога
+class neuron:
+    def __init__(self, inputs, weights, bias):
+        self.inputs = inputs
+        self.weights = weights
+        self.bias = bias
+
+    def get_output(self):
+        output = 0
+        for i in range(len(self.inputs)):
+            output += self.inputs[i] * self.weights[i]
+        output += self.bias
+        return output
 
 
-# Проверка работы искусственного нейрона (персептрона)
-num1 = list('001001001001001')
-num2 = list('111001111100111')
-weights = [1 for i in range(15)]  # Присвоение значений всем связям w=1
+class layer:
+    def __init__(self, neurons):
+        self.neurons = neurons
 
-print(num1)  # Смотрим, какие сигналы от сенсоров получил персептрон
-print(perceptron(num1))  # Проверяем, ЧТО ответил персептрон
-print(num2)  # Смотрим, какие сигналы от сенсоров
-print(perceptron(num2))  # Проверяем, ЧТО ответил персептрон
+    def get_outputs(self):
+        outputs = []
+        for neuron in self.neurons:
+            outputs.append(neuron.get_output())
+        return outputs
+
+neuron1 = neuron([1, 2, 3], [0.2, 0.8, -0.5], 2)
+neuron2 = neuron([2, 3, 4], [0.5, -0.91, 0.26], -1)
+neuron3 = neuron([3, 4, 5], [-0.26, -0.27, 0.17], 0.5)
+layer1 = layer([neuron1, neuron2, neuron3])
+print(layer1.get_outputs())
