@@ -87,7 +87,7 @@ while ai_wins != 10 and human_wins != 10:
     ai_wins += 1
   glass_update(used_glasses, the_glasses)
   print('Счёт')
-  print(f'Человек:{human_wins} ИИ: {ai_wins}')
+  print(f'Человек: {human_wins} ИИ: {ai_wins}')
 if ai_is_winner == True:
   print('По итогам игры победил ИИ')
 else:
