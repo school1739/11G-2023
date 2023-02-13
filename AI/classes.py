@@ -1,3 +1,4 @@
+# Егорова и Кузнецов Г
 #PEP8:
 #Переменные: some_peremennaya
 #Классы: SomeClass
