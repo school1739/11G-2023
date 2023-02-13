@@ -1,3 +1,4 @@
+# Базанов Александр и Кузнецов Владимир
 import random
 
 # Создаём словарь со стаканами
@@ -126,12 +127,16 @@ def check_win():
         else:
             for chosen_numbers in keys:
                 the_glasses[chosen_numbers].append(used_glasses[chosen_numbers])
+        print("=" * 50)
         print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+        print("=" * 50)
         ai_start()
     else:
         player_wins += 1
         if player_wins == 10:
+            print("=" * 50)
             print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+            print("=" * 50)
             print("Победил игрок, он набрал 10 очков")
             exit()
         if start_ai:
@@ -140,7 +145,9 @@ def check_win():
         else:
             for chosen_numbers in keys:
                 the_glasses[chosen_numbers].remove(used_glasses[chosen_numbers])
+        print("=" * 50)
         print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+        print("=" * 50)
         player_start()
 
 
