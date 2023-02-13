@@ -22,6 +22,7 @@ class layer:
             outputs.append(neuron.get_output())
         return outputs
 
+
 neuron1 = neuron([1, 2, 3], [0.2, 0.8, -0.5], 2)
 neuron2 = neuron([2, 3, 4], [0.5, -0.91, 0.26], -1)
 neuron3 = neuron([3, 4, 5], [-0.26, -0.27, 0.17], 0.5)
