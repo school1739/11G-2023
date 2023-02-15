@@ -2,6 +2,8 @@ RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 answer = ""
 
+file_to_write = open("CaesarLog.txt", "w", encoding="utf-8")
+
 mode_choice = input("Выберите режим работы:\n"  # Ввод режима работы
                     "1 - шифрование\n"
                     "2 - дешифрование\n"
@@ -38,17 +40,29 @@ match mode_choice:  # Включение режима работы, соотве
         offset = int(input("Введите сдвиг: "))
         iterate_text(text, "encrypt")
         print(answer)
-
+        file_to_write.write("Шифровка:")
+        file_to_write.write(text)
+        file_to_write.write(" - ")
+        file_to_write.write(answer)
     case 2:
         offset = int(input("Введите сдвиг: "))
         iterate_text(text, "decrypt")
-        print(answer)
+        file_to_write.write("Дешифровка:")
+        file_to_write.write(text)
+        file_to_write.write(" - ")
+        file_to_write.write(answer)
 
     case 3:
+        file_to_write.write("bruteforce:")
+        file_to_write.write(text)
+        file_to_write.write(" - ")
         for i in range(1, 32):
             iterate_text(text, "bruteforce")
             print(f"Сдвиг {i}: {answer}")
+            file_to_write.write(f"{i} сдвиг:{answer}")
+            file_to_write.write(", ")
             answer = ""
 
-    case _: # Защита от дурака
+    case _:  # Защита от дурака
         print("Неверный режим работы")
+file_to_write.close()
