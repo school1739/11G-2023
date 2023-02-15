@@ -1,14 +1,17 @@
 RUS_ALPHA = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
 ENG_ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-made_choice = int(input('Выберите операцию:'
-                        ' 1 - шифрование'
-                        ' 2 - дешифровка'
-                        ' 3 - перебор'))
+file_to_write = open("Caesar(salad).txt", "w", encoding="utf-8") # Открытие файла для записи ответов
+
+made_choice = int(input('Выберите операцию:\n'
+                    ' 1 - шифрование\n'
+                    ' 2 - дешифровка\n'
+                    ' 3 - перебор\n'))
 
 message = input('Введите сообщение: ').upper()
 answer = ''
 nomer = 0
+
 if made_choice == 1:
     offset = int(input('Введите сдвиг: '))
     for char in message:
@@ -23,8 +26,8 @@ if made_choice == 1:
         else:
             answer += char
     print(answer)
-
-if made_choice == 2:
+    file_to_write.write(answer) # Запись в файл
+elif made_choice == 2:
     offset = int(input('Введите сдвиг: '))
     for char in message:
         if char in RUS_ALPHA:
@@ -38,8 +41,8 @@ if made_choice == 2:
         else:
             answer += char
     print(answer)
-
-if made_choice == 3:
+    file_to_write.write(answer)   # Запись в файл
+elif made_choice == 3:
     for offset in range(32):
         answer = ''
         nomer += 1
@@ -54,5 +57,9 @@ if made_choice == 3:
                 answer += ENG_ALPHA[new_place % 26]
             else:
                 answer += char
-        print(nomer, answer)
-
+        answer = f'{nomer}. {answer} \n'
+        print(answer)
+        file_to_write.write(answer) # Запись в файл
+else:
+    print('Неверные данные')
+file_to_write.close()
