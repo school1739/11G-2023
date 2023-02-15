@@ -1,20 +1,42 @@
-RUS_ALPHA='АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
-ENG_ALPHA='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+Alphabet_RU = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+Alphabet_EN = "ABCDEFGHIKLMNOPQRSTVXYZ"
+fileToWrite=open("CaesarLog.txt", "w", encoding="utf-8")
+def main():
+    message = input("Введите сообщение : ").upper()
+    print("Encrypt - 1")
+    print("Decrypt - 2")
+    print("Brute force - 3")
+    choice = int(input("Выберите режим : "))
+    match choice:
+        case 1:
+            print(encrypt(message, int(input("Сдвиг : "))))
+        case 2:
+            print(decrypt(message, int(input("Сдвиг : "))))
+        case 3:
+            bruteforce(message)
+        case _:
+            print("Ошибка ввода")
+def encrypt(message, offset):
+    answer = ""    for char in message:
+        if char in Alphabet_RU:
+            answer += Alphabet_RU[(Alphabet_RU.find(char) + offset) % len(Alphabet_RU)]
+        elif char in Alphabet_EN:
+            answer += Alphabet_EN[(Alphabet_EN.find(char) + offset) % len(Alphabet_EN)]
+        else:
+            answer += char
+    return answer
+def decrypt(message, offset):
+    answer = ""
+    for char in message:
+        if char in Alphabet_RU:
+            answer += Alphabet_RU[(Alphabet_RU.find(char) - offset) % len(Alphabet_RU)]
+        elif char in Alphabet_EN:
+            answer += Alphabet_EN[(Alphabet_EN.find(char) - offset) % len(Alphabet_EN)]
+        else:
+            answer += char
+    return answer
+def bruteforce(message):
+    for i in range(len(Alphabet_RU)):
+        fileToWrite.write(f"{i}: {encrypt(message, i)}\n")
+main()
 
-offset=int(input('Введите сдвиг: '))
-if offset>33: #1 если полный круг
-    offset=offset-33
-message =(input('Введите сообщение: ')).upper()
-answer=''
-for char in message:
-    char_place_rus=RUS_ALPHA.find(char)
-    char_place_eng = ENG_ALPHA.find(char) #3 отличает рус от англ
-    new_place_rus =char_place_rus+(offset%33)# если элемент в конце алф
-    new_place_eng = char_place_eng + (offset%26)
-    if char in RUS_ALPHA:
-        answer+=RUS_ALPHA[new_place_rus%33]
-    elif char in ENG_ALPHA:
-        answer+=ENG_ALPHA[new_place_eng%26]
-    else :
-        answer +=char
-print(answer)
