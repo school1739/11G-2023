@@ -1,9 +1,39 @@
+import ftplib
+from ftplib import FTP
+
 RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 answer = ""
 
-# Открыть файл
-file_to_write = open("CesarLog.txt", "w", encoding = "utf-8") # w - писать, r - читать
+
+HOST = "vh388.timeweb.ru"
+PORT = 21
+USER = "bormotoon_infosec"
+PASSWORD = "zfyLKkD3"
+
+
+# Подключение к серверу
+ftp_server = FTP(HOST, USER, PASSWORD)
+filename = "CesarLog.txt"
+with open(filename, "rb") as file:
+    # Command for Uploading the file "STOR filename"
+    ftp_server.storbinary(f"STOR {filename}", file)
+
+with open(filename, "wb") as file:
+    # Command for Downloading the file "RETR filename"
+    ftp_server.retrbinary(f"RETR {filename}", file.write)
+
+file= open(filename, "r")
+print('File Content:', file.read())
+
+# Открыть файл на запись, кодировка UTF-8
+# Аргументы: имя файла, режим работы, кодировка
+# Режимы работы:
+    # r - read (только чтение)
+    # w - write (запись)
+    # a - append (добавить в конец)
+
+# file_to_write = open("CesarLog.txt", "w", encoding = "utf-8") # w - писать, r - читать
 
 mode_choice = input("Выберите режим работы:\n"  # Ввод режима работы
                     "1 - шифрование\n"
@@ -40,19 +70,21 @@ match mode_choice:  # Включение режима работы, соотве
     case 1:
         offset = int(input("Введите сдвиг: "))
         iterate_text(text, "encrypt")
-        print(answer)
+        file_to_write = open("CesarLog.txt", "w", encoding="utf-8")
         file_to_write.write(answer) # Записать в файл
 
     case 2:
         offset = int(input("Введите сдвиг: "))
         iterate_text(text, "decrypt")
         print(answer)
+        file_to_write = open("CesarLog.txt", "w", encoding="utf-8")
         file_to_write.write(answer) # Записать в файл
 
     case 3:
         for i in range(1, 32):
             iterate_text(text, "bruteforce")
             print(f"Сдвиг {i}: {answer}")
+            file_to_write = open("CesarLog.txt", "a", encoding="utf-8")
             file_to_write.write(f"Сдвиг {i}: {answer}\n") # Записать в файл
             answer = ""
 
@@ -61,3 +93,4 @@ match mode_choice:  # Включение режима работы, соотве
         print("Неверный режим работы")
 
 file_to_write.close() # Закрыть файл
+
