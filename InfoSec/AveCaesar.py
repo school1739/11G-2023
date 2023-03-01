@@ -60,10 +60,11 @@ match mode_choice:  # Включение режима работы, соотве
         offset = int(input("Введите сдвиг: "))
         iterate_text(text, "encrypt")
         print(answer)
-        file_to_write = open('CeasarLog.txt', 'w', encoding='utf-8')
-        file_to_write.write(answer)
         con = FTP(HOST, USER, PASSWORD)
-        send = con.storbinary('STOR ' + filename, file_to_write)
+        file_to_write = open(filename , 'w',)
+        file_to_write.write(answer)
+        # нужно как-то подготовить file_to_wtite к чтению r
+        send = con.storbinary('STOR '+ filename , file_to_write)
         con.close()
 
     case 2:
@@ -73,7 +74,7 @@ match mode_choice:  # Включение режима работы, соотве
         file_to_write = open('CeasarLog.txt', 'w', encoding='utf-8')
         file_to_write.write(answer)
         con = FTP(HOST, USER, PASSWORD)
-        send = con.storbinary('STOR ' + filename, file_to_write)
+        send = con.storbinary( + filename, file_to_write)
         con.close()
 
     case 3:
@@ -83,7 +84,7 @@ match mode_choice:  # Включение режима работы, соотве
             file_to_write = open('CeasarLog.txt', 'a', encoding='utf-8')
             file_to_write.write(f"Сдвиг {i}: {answer}\n")
             con = FTP(HOST, USER, PASSWORD)
-            send = con.storbinary('STOR ' + filename, file_to_write)
+            send = con.storbinary('STOR'+filename, file_to_write)
             con.close()
             answer = ""
 
