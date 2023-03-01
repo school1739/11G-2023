@@ -8,10 +8,10 @@ ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 answer = ""
 
 # FTP credentials
-HOST = "HOST"
+HOST = "vh388.timeweb.ru"
 PORT = 21
-USER = "USER"
-PASSWORD = "PASSWORD"
+USER = "bormotoon_infosec"
+PASSWORD = "zfyLKkD3"
 
 
 def iterate_text(text, mode):  # Проход по символам исходного сообщения
@@ -26,10 +26,10 @@ def iterate_text(text, mode):  # Проход по символам исходн
     for letter in text:  # Проход по символам
         if letter in RUS_ALPHA:  # Если символ - русская буква
             answer += RUS_ALPHA[eval(
-                "RUS_ALPHA.index(letter)" + op + "% len(RUS_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
+                "(RUS_ALPHA.index(letter)" + op + ")" + "% len(RUS_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
         elif letter in ENG_ALPHA:  # Если символ - английская буква
             answer += ENG_ALPHA[eval(
-                "ENG_ALPHA.index(letter)" + op + "% len(ENG_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
+                "(ENG_ALPHA.index(letter)" + op + ")" + "% len(ENG_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
         else:
             answer += letter  # Если символ не буква, то просто добавляем его в ответ
 
@@ -119,3 +119,10 @@ match ftp_mode_choice:  # Включение режима работы, соот
         print("Неверный режим работы")  # Вывод сообщения об ошибке
 
 the_file.close()  # Закрытие файла
+
+# TODO - Кодировщик: добавить возможность выбора режима работы (шифрование, дешифрование, bruteforce)
+# TODO - Кодировщик: добавить вывод в файл CaesarLog.txt
+# TODO - FTP: Добавить возможность выбора режима работы с FTP-сервером (получить список файлов, загрузить файл, скачать файл, выход)
+# TODO - FTP: Добавить возможность загрузки и скачивания файлов с FTP-сервера
+# TODO - FTP: Добавить возможность выбора файла для загрузки/скачивания
+# TODO - FTP: Кнопка выхода из программы
