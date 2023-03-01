@@ -18,7 +18,7 @@ ALPHA_RUS = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', '
 ALPHA_ENG = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
              'V', 'W', 'X', 'Y', 'Z']
 
-choice = int(input('1 - Шифрование\n2 - Дешифрование\n3 - хз\n'))
+choice = int(input('1 - Шифрование\n2 - Дешифрование\n3 - Ыть\n'))
 message = str(input('ТЕКСT: ')).upper()
 if choice == 2 or choice == 1:
     offset = int(input('Введите сдвиг:'))
