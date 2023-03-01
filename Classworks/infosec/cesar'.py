@@ -1,17 +1,25 @@
 from ftplib import FTP
 
-# Алфавиты для шифрования
 RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-# Переменная для записи ответа
 answer = ""
 
-# FTP credentials
-HOST = "HOST"
+file_to_write = open("CaesarLog.txt", "w", encoding="utf-8")
+
+mode_choice = input("Выберите режим работы:\n"  # Ввод режима работы
+                    "1 - шифрование\n"
+                    "2 - дешифрование\n"
+                    "3 - bruteforce\n"
+                    "4 - Отправить файл\n"
+                    "5 - Скачать файл\n")
+while mode_choice not in "12345":  # Защита от дурака
+    mode_choice = input("Неверный режим работы. Попробуйте ещё раз: ")
+mode_choice = int(mode_choice)
+
+HOST = "vh388.timeweb.ru"
 PORT = 21
-USER = "USER"
-PASSWORD = "PASSWORD"
+USER = "bormotoon_infosec"
+PASSWORD = "zfyLKkD3"
 
 
 def iterate_text(text, mode):  # Проход по символам исходного сообщения
@@ -29,93 +37,58 @@ def iterate_text(text, mode):  # Проход по символам исходн
                 "RUS_ALPHA.index(letter)" + op + "% len(RUS_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
         elif letter in ENG_ALPHA:  # Если символ - английская буква
             answer += ENG_ALPHA[eval(
-                "ENG_ALPHA.index(letter)" + op + "% len(ENG_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
+                "(ENG_ALPHA.index(letter))" + op + "% len(ENG_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
         else:
             answer += letter  # Если символ не буква, то просто добавляем его в ответ
 
 
-# Создаём соединение с FTP-сервером
-srv = FTP()
-srv.connect(HOST, PORT)
-srv.login(USER, PASSWORD)
-
-# Отрываем файл на запись, кодировка UTF-8
-# Аргументы: имя файла, режим работы, кодировка
-# Режимы работы:
-# r - read (только чтение)
-# w - write (запись)
-# a - append (добавить в конец)
-# file_to_write = open("CaesarLog.txt", "w", encoding="utf-8")
-
-coding_mode_choice = input("Выберите режим работы:\n"  # Ввод режима работы
-                           "1 - шифрование\n"
-                           "2 - дешифрование\n"
-                           "3 - bruteforce\n")
-while coding_mode_choice not in "123":  # Защита от дурака
-    coding_mode_choice = input("Неверный режим работы. Попробуйте ещё раз: ")
-coding_mode_choice = int(coding_mode_choice)
-
-text = input("Введите текст: ").upper()  # Ввод исходного сообщения
-
-match coding_mode_choice:  # Включение режима работы, соответствующего выбранному пользователем
+match mode_choice:  # Включение режима работы, соответствующего выбранному пользователем
     case 1:
+        text = input("Введите текст: ").upper()  # Ввод исходного сообщения
         offset = int(input("Введите сдвиг: "))
         iterate_text(text, "encrypt")
         print(answer)
-        the_file = open("CaesarLog.txt", "w", encoding="utf-8")
-        the_file.write(answer)  # Запись в файл
-
+        file_to_write.write("Шифровка:")
+        file_to_write.write(text)
+        file_to_write.write(" - ")
+        file_to_write.write(answer)
     case 2:
+        text = input("Введите текст: ").upper()  # Ввод исходного сообщения
         offset = int(input("Введите сдвиг: "))
         iterate_text(text, "decrypt")
-        print(answer)
-        the_file = open("CaesarLog.txt", "w", encoding="utf-8")
-        the_file.write(answer)  # Запись в файл
-
+        file_to_write.write("Дешифровка:")
+        file_to_write.write(text)
+        file_to_write.write(" - ")
+        file_to_write.write(answer)
     case 3:
+        text = input("Введите текст: ").upper()  # Ввод исходного сообщения
+        file_to_write.write("bruteforce:")
+        file_to_write.write(text)
+        file_to_write.write(" - ")
         for i in range(1, 32):
             iterate_text(text, "bruteforce")
             print(f"Сдвиг {i}: {answer}")
-            the_file = open("CaesarLog.txt", "a", encoding="utf-8")
-            the_file.write(f"Сдвиг {i}: {answer}\n")  # Запись в файл
+            file_to_write.write(f"{i} сдвиг:{answer}")
+            file_to_write.write(", ")
             answer = ""
-
+    case 4:
+        ftp = FTP()
+        ftp.connect(HOST, PORT)
+        ftp.login(USER, PASSWORD)
+        # print(open())
+        file_name = input("Какой файл отправить?\n")
+        ftp.storbinary('STOR ' + file_name, open(file_name, "rb"))  # rb - Чтение двоичного файла
+        ftp.quit()
+    case 5:
+        ftp = FTP()
+        ftp.connect(HOST, PORT)
+        ftp.login(USER, PASSWORD)
+        ftp.retrlines('LIST')
+        file_name = input("Выберите файл для скачивания:")
+        my_file = open(file_name, 'wb')  # wb - Запись двоичного файла
+        ftp.retrbinary('RETR ' + file_name, my_file.write, 1024)
+        ftp.quit()
+        my_file.close()
     case _:  # Защита от дурака
-        print("Неверный режим работы")  # Вывод сообщения об ошибке
-
-ftp_mode_choice = input("Выберите режим работы с FTP-сервером:\n"  # Ввод режима работы
-                        "1 - Получить список файлов на сервере\n"
-                        "2 - Загрузить файл на сервер\n"
-                        "3 - Скачать файл с сервера\n"
-                        "4 - Выход\n")
-while ftp_mode_choice not in "1234":  # Защита от дурака
-    ftp_mode_choice = input("Неверный режим работы. Попробуйте ещё раз: ")
-ftp_mode_choice = int(ftp_mode_choice)
-
-match ftp_mode_choice:  # Включение режима работы, соответствующего выбранному пользователем
-    case 1:  # Получение списка файлов на FTP-сервере
-        dir_list = srv.nlst()
-        for filename in dir_list:
-            print(filename, end="\n")
-
-    case 2:  # Загрузка файла на FTP-сервер
-        file_to_upload = input("Введите имя файла для загрузки: ")
-        srv.storbinary('STOR ' + file_to_upload, open(file_to_upload, 'rb'))
-
-    case 3:  # Скачивание файла с FTP-сервера
-        dir_list = srv.nlst()
-        for filename in dir_list:
-            print(filename, end="\n")
-        file_to_download = input("Введите имя файла для скачивания: ")
-        while file_to_download not in dir_list:  # Защита от дурака
-            file_to_download = input("Неверное имя файла. Попробуйте ещё раз: ")
-        with open(file_to_download, 'wb') as df:
-            srv.retrbinary('RETR ' + file_to_download, df.write)
-    case 4:  # Выход
-        srv.quit()
-        exit()
-
-    case _:  # Защита от дурака
-        print("Неверный режим работы")  # Вывод сообщения об ошибке
-
-the_file.close()  # Закрытие файла
+        print("Неверный режим работы")
+file_to_write.close()
