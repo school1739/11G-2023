@@ -16,7 +16,7 @@ ALPHA_RUS = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', '
 ALPHA_ENG = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
              'V', 'W', 'X', 'Y', 'Z']
 
-choice = int(input('1 - Шифрование\n2 - Дешифрование\n3 - хз\n'))
+choice = int(input('1 - Шифрование\n2 - Дешифрование\n3 - брутфорс\n'))
 message = str(input('ТЕКСT: ')).upper()
 if choice == 2 or choice == 1:
     offset = int(input('Введите сдвиг:'))
@@ -79,18 +79,18 @@ match choice:
         file_to_write = open('logs.txt', 'w', encoding='utf-8')
         print('Вы клоун')
         file_to_write.write(
-            'ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД')
+            'ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД')
 
 file_to_write.close()
 
 # with open('logs.txt', "rb") as file:
-#     session.storbinary('filippov.txt', file)
+#     session.storbinary('lopatin.txt', file)
 
 print(session.dir())
 
 file_to_write.close()
 
 file_to_write = open('logs.txt', 'rb')
-session.storbinary('STOR filippov.txt', file_to_write)
+session.storbinary('STOR lopatin.txt', file_to_write)
 session.quit()
 file_to_write.close()
