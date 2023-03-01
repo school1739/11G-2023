@@ -1,5 +1,5 @@
 import os
-# Филиппов
+# Филиппов и Савченко
 from datetime import datetime
 from ftplib import FTP
 current_datetime = datetime.now()
@@ -85,14 +85,27 @@ file_to_write.close()
 # with open('logs.txt', "rb") as file:
 #     session.storbinary('filippov.txt', file)
 
-print(session.dir())
+
 
 
 
 file_to_write.close()
 
-
-file_to_write = open('logs.txt', 'rb')
-session.storbinary('STOR filippov.txt', file_to_write)
-session.quit()
-file_to_write.close()
+choice = int(input('1 - Загрузка\n2 - Скачивание\n3 - Список файлов\n4 - Выход'))
+if choice == 1:
+  print(str(os.listdir()))
+  print('\n Введите название файла: ')
+  file_to_write = open('logs.txt', 'rb')
+  input = str(input())
+  session.storbinary('STOR ' + input, file_to_write)
+  session.quit()
+  file_to_write.close()
+elif choice == 2:
+  print(session.dir())
+  print('Выберите файл для загрузки: ')
+  input = str(input())
+  session.retrbinary("RETR " + input , open(input, 'wb').write)
+elif choice == 3:
+  print(session.dir())
+else:
+  print('выход...')
