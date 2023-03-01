@@ -148,9 +148,9 @@ match choice:
         file_to_write.write(tempVar)
     case _:
         file_to_write = open('logs.txt', 'w', encoding='utf-8')
-        print('Вы клоун')
-        file_to_write.write(
-            'ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД ГАД')
+        print('Вы Демогорган')
+        print("BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA (Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот'")
+        file_to_write.write('BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA BAKA (Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот,Идиот')
 
 file_to_write.close()
 
