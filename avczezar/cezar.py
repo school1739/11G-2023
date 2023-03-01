@@ -1,4 +1,4 @@
-#Бычков Лыгач уёбок
+#Бычков Лыгач
 
 from ftplib import FTP
 
