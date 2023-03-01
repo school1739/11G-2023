@@ -1,121 +1,109 @@
+import os
+# Ягупов
+from datetime import datetime
 from ftplib import FTP
 
-# Алфавиты для шифрования
-RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+current_datetime = datetime.now()
 
-# Переменная для записи ответа
-answer = ""
-
-# FTP credentials
-HOST = "HOST"
+HOST = "vh388.timeweb.ru"
 PORT = 21
-USER = "USER"
-PASSWORD = "PASSWORD"
+USER = "bormotoon_infosec"
+PASSWORD = 'zfyLKkD3'
+session = FTP(HOST, USER, PASSWORD)
+
+ALPHA_RUS = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У',
+             'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я']
+ALPHA_ENG = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+             'V', 'W', 'X', 'Y', 'Z']
+
+choice = int(input('1 - Шифрование\n2 - Дешифрование\n3 - Bruteforce\n'))
+message = str(input('Текст: ')).upper()
+if choice == 2 or choice == 1:
+    offset = int(input('Введите сдвиг:'))
 
 
-def iterate_text(text, mode):  # Проход по символам исходного сообщения
-    global answer  # Будем записывать ответ в глобальную переменную
-    match mode:  # Выбор режима работы
-        case "encrypt":  # Шифрование
-            op = "+ offset"
-        case "decrypt":  # Дешифрование
-            op = "- offset"
-        case "bruteforce":  # Атака перебором
-            op = "- i"
-    for letter in text:  # Проход по символам
-        if letter in RUS_ALPHA:  # Если символ - русская буква
-            answer += RUS_ALPHA[eval(
-                "RUS_ALPHA.index(letter)" + op + "% len(RUS_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
-        elif letter in ENG_ALPHA:  # Если символ - английская буква
-            answer += ENG_ALPHA[eval(
-                "ENG_ALPHA.index(letter)" + op + "% len(ENG_ALPHA)")]  # Вычисляем индекс символа в алфавите и прибавляем сдвиг
+# Открываем файл на запись, кодировка UTF-8
+# 'r'	открытие на чтение (является значением по умолчанию).
+# 'w'	открытие на запись, содержимое файла удаляется, если файла не существует, создается новый.
+# 'x'	открытие на запись, если файла не существует, иначе исключение.
+# 'a'	открытие на дозапись, информация добавляется в конец файла.
+# 'b'	открытие в двоичном режиме.
+# 't'	открытие в текстовом режиме (является значением по умолчанию).
+# '+'	открытие на чтение и запись
+
+
+# file_to_write = open('logs.txt', 'w', encoding = 'utf-8')
+
+
+def shift(message, offset):
+    i = 0
+    answer = ''
+    while (i < len(message)):
+        if (message[i] in ALPHA_RUS):
+            newLetter = ALPHA_RUS.index(message[i]) + offset
+            if newLetter >= 33:
+                newLetter = newLetter - 33
+            answer = answer + ALPHA_RUS[newLetter]
+        elif (message[i] in ALPHA_ENG):
+            if (message[i] in ALPHA_ENG):
+                newLetter = ALPHA_ENG.index(message[i]) + offset
+                if newLetter >= 26:
+                    newLetter = newLetter - 26
+                answer = answer + ALPHA_ENG[newLetter]
         else:
-            answer += letter  # Если символ не буква, то просто добавляем его в ответ
+            answer = answer + message[i]
+        i = i + 1
+    return answer
 
 
-# Создаём соединение с FTP-сервером
-srv = FTP()
-srv.connect(HOST, PORT)
-srv.login(USER, PASSWORD)
-
-# Отрываем файл на запись, кодировка UTF-8
-# Аргументы: имя файла, режим работы, кодировка
-# Режимы работы:
-# r - read (только чтение)
-# w - write (запись)
-# a - append (добавить в конец)
-# file_to_write = open("CaesarLog.txt", "w", encoding="utf-8")
-
-coding_mode_choice = input("Выберите режим работы:\n"  # Ввод режима работы
-                           "1 - шифрование\n"
-                           "2 - дешифрование\n"
-                           "3 - bruteforce\n")
-while coding_mode_choice not in "123":  # Защита от дурака
-    coding_mode_choice = input("Неверный режим работы. Попробуйте ещё раз: ")
-coding_mode_choice = int(coding_mode_choice)
-
-text = input("Введите текст: ").upper()  # Ввод исходного сообщения
-
-match coding_mode_choice:  # Включение режима работы, соответствующего выбранному пользователем
+match choice:
     case 1:
-        offset = int(input("Введите сдвиг: "))
-        iterate_text(text, "encrypt")
-        print(answer)
-        the_file = open("CaesarLog.txt", "w", encoding="utf-8")
-        the_file.write(answer)  # Запись в файл
-
+        file_to_write = open('logs.txt', 'w', encoding='utf-8')
+        print(shift(message, offset))
+        file_to_write.write(shift(message, offset))
     case 2:
-        offset = int(input("Введите сдвиг: "))
-        iterate_text(text, "decrypt")
-        print(answer)
-        the_file = open("CaesarLog.txt", "w", encoding="utf-8")
-        the_file.write(answer)  # Запись в файл
-
+        file_to_write = open('logs.txt', 'w', encoding='utf-8')
+        print(shift(message, int('-' + str(offset))))
+        file_to_write.write(shift(message, int('-' + str(offset))))
     case 3:
-        for i in range(1, 32):
-            iterate_text(text, "bruteforce")
-            print(f"Сдвиг {i}: {answer}")
-            the_file = open("CaesarLog.txt", "a", encoding="utf-8")
-            the_file.write(f"Сдвиг {i}: {answer}\n")  # Запись в файл
-            answer = ""
+        file_to_write = open('logs.txt', 'a', encoding='utf-8')
+        file_to_write.write('\n\n\n-------------\n' + str(current_datetime) + '\n')
+        i = 0
+        tempVar = ''
+        while i < 33:
+            i += 1
+            print(f'Для сдвига {i}: {shift(message, i)}')
+            tempVar = tempVar + f'Для сдвига {i}: {shift(message, i)}\n'
+        file_to_write.write(tempVar)
+    case _:
+        file_to_write = open('logs.txt', 'w', encoding='utf-8')
+        print('Красава')
+        file_to_write.write(
+            'Хулиган')
 
-    case _:  # Защита от дурака
-        print("Неверный режим работы")  # Вывод сообщения об ошибке
+file_to_write.close()
 
-ftp_mode_choice = input("Выберите режим работы с FTP-сервером:\n"  # Ввод режима работы
-                        "1 - Получить список файлов на сервере\n"
-                        "2 - Загрузить файл на сервер\n"
-                        "3 - Скачать файл с сервера\n"
-                        "4 - Выход\n")
-while ftp_mode_choice not in "1234":  # Защита от дурака
-    ftp_mode_choice = input("Неверный режим работы. Попробуйте ещё раз: ")
-ftp_mode_choice = int(ftp_mode_choice)
+# with open('logs.txt', "rb") as file:
+#     session.storbinary('yagupov.txt', file)
 
-match ftp_mode_choice:  # Включение режима работы, соответствующего выбранному пользователем
-    case 1:  # Получение списка файлов на FTP-сервере
-        dir_list = srv.nlst()
-        for filename in dir_list:
-            print(filename, end="\n")
 
-    case 2:  # Загрузка файла на FTP-сервер
-        file_to_upload = input("Введите имя файла для загрузки: ")
-        srv.storbinary('STOR ' + file_to_upload, open(file_to_upload, 'rb'))
+file_to_write.close()
 
-    case 3:  # Скачивание файла с FTP-сервера
-        dir_list = srv.nlst()
-        for filename in dir_list:
-            print(filename, end="\n")
-        file_to_download = input("Введите имя файла для скачивания: ")
-        while file_to_download not in dir_list:  # Защита от дурака
-            file_to_download = input("Неверное имя файла. Попробуйте ещё раз: ")
-        with open(file_to_download, 'wb') as df:
-            srv.retrbinary('RETR ' + file_to_download, df.write)
-    case 4:  # Выход
-        srv.quit()
-        exit()
-
-    case _:  # Защита от дурака
-        print("Неверный режим работы")  # Вывод сообщения об ошибке
-
-the_file.close()  # Закрытие файла
+choice = int(input('1 - Загрузка\n2 - Скачивание\n3 - Список файлов\n4 - Выход'))
+if choice == 1:
+    print(str(os.listdir()))
+    print('\n Введите название файла: ')
+    file_to_write = open('logs.txt', 'rb')
+    input = str(input())
+    session.storbinary('STOR ' + input, file_to_write)
+    session.quit()
+    file_to_write.close()
+elif choice == 2:
+    print(session.dir())
+    print('Выберите файл для загрузки: ')
+    input = str(input())
+    session.retrbinary("RETR " + input, open(input, 'wb').write)
+elif choice == 3:
+    print(session.dir())
+else:
+    print('выход...')
