@@ -8,10 +8,10 @@ ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 answer = ""
 
 # FTP credentials
-HOST = "vh388.timeweb.ru"
+HOST = "HOST"
 PORT = 21
-USER = "bormotoon_infosec"
-PASSWORD = "zfyLKkD3"
+USER = "USER"
+PASSWORD = "PASSWORD"
 
 
 def iterate_text(text, mode):  # Проход по символам исходного сообщения
