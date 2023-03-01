@@ -1,34 +1,25 @@
-import random
-spisok1 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok2 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok3 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok4 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok5 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok6 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok7 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok8 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok9 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok10 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-spisok11 = [random.randint(1, 2), random.randint(1, 2), random.randint(1, 2)]
-the_slovar={"Стакан 1": spisok1,
-            "Стакан 2": spisok2,
-            "Стакан 3": spisok3,
-            "Стакан 4": spisok4,
-            "Стакан 5": spisok5,
-            "Стакан 6": spisok6,
-            "Стакан 7": spisok7,
-            "Стакан 8": spisok8,
-            "Стакан 9": spisok9,
-            "Стакан 10": spisok10,
-            "Стакан 11": spisok11,}
-print(the_slovar["Стакан 1"])
-print(the_slovar["Стакан 2"])
-print(the_slovar["Стакан 3"])
-print(the_slovar["Стакан 4"])
-print(the_slovar["Стакан 5"])
-print(the_slovar["Стакан 6"])
-print(the_slovar["Стакан 7"])
-print(the_slovar["Стакан 8"])
-print(the_slovar["Стакан 9"])
-print(the_slovar["Стакан 10"])
-print(the_slovar["Стакан 11"])
+# Здесь когда-нибудь появится нейросеть из стаканов и бумажек, которая сможет играть в "11 палочек"
+
+# Пример словаря:
+manowar_songs = {1: 'Hail and Kill',
+                 2: 'Metal Warriors',
+                 3: 'The Sons of Odin',
+                 4: 'The Lord of Steel',
+                 5: 'The Power and the Glory',
+                 6: 'The Oath',
+                 7: 'The Sign of the Hammer',
+                 8: 'Return of the Warlord'}
+print(manowar_songs[2])  # Выводит 'Metal Warriors'
+
+# Примечание:
+# В словаре можно хранить любые базовые типы данных, в т.ч. списки и даже другие словари
+
+#  Начинаем заполнять стаканы бумажками.
+#  Стаканы - это словари, в которых будут храниться бумажки.
+#  Бумажки - это переменные с числом 1 или 2.
+
+# TODO:
+#   Создать словарь, имитирующий 11 стаканов с бумажками (цифры 1 и 2 по 3шт каждой)
+#   Удалить этот блок
+#   git commit
+#   git push
