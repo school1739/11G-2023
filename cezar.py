@@ -109,8 +109,7 @@ elif choice == 2:
 elif choice == 3:
   print(session.dir())
 else:
-  print('выход...')
-
+  print('выход')
 
 
 
