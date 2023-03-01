@@ -1,3 +1,7 @@
+#Kalantaryan Meri
+
+
+
 from datetime import datetime
 from ftplib import FTP
 
@@ -87,12 +91,32 @@ print(session.dir())
 
 file_to_write.close()
 
-file_to_write = open('logs.txt', 'rb')
+
+choice = int(input('1 - Загрузка\n2 - Скачивание\n3 - Список файлов\n4 - Выход'))
+if choice == 1:
+  print(str(os.listdir()))
+  print('\n Введите название файла: ')
+  file_to_write = open('logs.txt', 'rb')
+  input = str(input())
+  session.storbinary('STOR ' + input, file_to_write)
+  session.quit()
+  file_to_write.close()
+elif choice == 2:
+  print(session.dir())
+  print('Выберите файл для загрузки: ')
+  input = str(input())
+  session.retrbinary("RETR " + input , open(input, 'wb').write)
+elif choice == 3:
+  print(session.dir())
+else:
+  print('выход...')
 
 
 
 
+#file_to_write = open('logs.txt', 'rb')
 
-session.quit()
-file_to_write.close()
+
+#session.quit()
+#file_to_write.close()
 
