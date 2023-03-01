@@ -1,30 +1,38 @@
-class neuron:
-    def __init__(self, inputs, weights, bias):
-        self.inputs = inputs
+import math
+
+
+class Neuron(dendrite_count, theta, weights):
+    def __init__(self, dendrite_count, theta, weights):
+        self.dendrite_count = dendrite_count
+        self.theta = theta
         self.weights = weights
-        self.bias = bias
 
-    def get_output(self):
-        output = 0
-        for i in range(len(self.inputs)):
-            output += self.inputs[i] * self.weights[i]
-        output += self.bias
-        return output
+    def activation(self, inputs):
+        sum = 0
+        for i in range(0, self.dendrite_count):
+            sum += inputs[i] * self.weights[i]
+        return 1 / (1 + math.exp(-sum - self.theta))
 
 
-class layer:
-    def __init__(self, neurons):
+class Layer(neuron_count, neurons):
+    def __init__(self, neuron_count, neurons):
+        self.neuron_count = neuron_count
         self.neurons = neurons
 
-    def get_outputs(self):
+    def activation(self, inputs):
         outputs = []
-        for neuron in self.neurons:
-            outputs.append(neuron.get_output())
+        for i in range(0, self.neuron_count):
+            outputs.append(self.neurons[i].activation(inputs))
         return outputs
 
 
-neuron1 = neuron([1, 2, 3], [0.2, 0.8, -0.5], 2)
-neuron2 = neuron([2, 3, 4], [0.5, -0.91, 0.26], -1)
-neuron3 = neuron([3, 4, 5], [-0.26, -0.27, 0.17], 0.5)
-layer1 = layer([neuron1, neuron2, neuron3])
-print(layer1.get_outputs())
+class Brain(layer_count, layers):
+    def __init__(self, layer_count, layers):
+        self.layer_count = layer_count
+        self.layers = layers
+
+    def activation(self, inputs):
+        outputs = []
+        for i in range(0, self.layer_count):
+            outputs.append(self.layers[i].activation(inputs))
+        return outputs

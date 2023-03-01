@@ -39,7 +39,7 @@ def ai_move(situation):  # сделать ход (выбрать случайн�
 def human_move(situation):  # ход человека
     print("Ходит человек:")
     the_move = int(input("Введите количество палочек: "))
-    return the_move
+    the_move    return
 
 
 def ai_win():
