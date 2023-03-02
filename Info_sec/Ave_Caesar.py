@@ -1,8 +1,8 @@
 # Базанов, Кузнецов В., Егорова
 from ftplib import FTP
 
-RUS_ALPHA = 'АБВГДЕЁЖЗЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
-ENG_ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+ENG_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 mode_choose = input("Введите функцию:\n"
                     "1 - Шифрование\n"
                     "2 - Дешифровка\n"
@@ -28,27 +28,28 @@ ftp.login(USER, PASSWORD)
 
 
 def encrypt():
-    global answer
+    answer = ""
     offset = int(input('Введите сдвиг: '))
     # offset = offset % len(RUS_ALPHA)
     message = input('Введите сообщение: ').upper()
-    if offset > len(RUS_ALPHA):
-        n = offset // len(RUS_ALPHA)
-        offset = offset - n * len(RUS_ALPHA)
-    elif offset > len(ENG_ALPHA):
-        n = offset // len(ENG_ALPHA)
-        offset = offset - n * len(ENG_ALPHA)
-    for char in message:
-        if message in RUS_ALPHA:
-            rus_char_place = RUS_ALPHA.find(char)
-            new_place = rus_char_place + offset
+    for char in message:  # Проход по каждому символу в сообщении
+        # Производим сдвиг
+        if char in RUS_ALPHA:
+            if offset > len(RUS_ALPHA):  # Проверка на сдвиг больше ли число чем длина словаря
+                n = offset // len(RUS_ALPHA)
+                offset = offset - n * len(RUS_ALPHA)
+            rus_char_place = RUS_ALPHA.find(char)  # Ищем индекс символа
+            new_place = rus_char_place + offset  # Прибовляем к индексу сдвиг
+            if new_place >= len(RUS_ALPHA):  # Проверка что новый индекс меньше конечного индекса словаря
+                new_place = new_place - len(RUS_ALPHA)
         else:
-            eng_char_place = ENG_ALPHA.find(char)
-            new_place = eng_char_place + offset
-        if new_place > len(RUS_ALPHA):
-            new_place = new_place - len(RUS_ALPHA)
-        elif new_place > len(ENG_ALPHA):
-            new_place = new_place - len(ENG_ALPHA)
+            if offset > len(ENG_ALPHA):  # Проверка на сдвиг больше ли число чем длина словаря
+                n = offset // len(ENG_ALPHA)
+                offset = offset - n * len(ENG_ALPHA)
+            eng_char_place = ENG_ALPHA.find(char)  # Ищем индекс символа
+            new_place = eng_char_place + offset  # Прибовляем к индексу сдвиг
+            if new_place >= len(ENG_ALPHA):  # Проверка что новый индекс меньше конечного индекса словаря
+                new_place = new_place - len(ENG_ALPHA)
         if char in RUS_ALPHA:
             answer += RUS_ALPHA[new_place]
         elif char in ENG_ALPHA:
@@ -63,27 +64,28 @@ def encrypt():
 
 
 def decrypt():
-    global answer
-    message = input('Введите сообщение: ').upper()
+    answer = ""
     offset = int(input('Введите сдвиг: '))
     # offset = offset % len(RUS_ALPHA)
-    if offset > len(RUS_ALPHA):
-        n = offset // len(RUS_ALPHA)
-        offset = offset - n * len(RUS_ALPHA)
-    elif offset > len(ENG_ALPHA):
-        n = offset // len(ENG_ALPHA)
-        offset = offset - n * len(ENG_ALPHA)
-    for char in message:
-        if message in RUS_ALPHA:
-            rus_char_place = RUS_ALPHA.find(char)
-            new_place = rus_char_place - offset
+    message = input('Введите сообщение: ').upper()
+    for char in message:  # Проход по каждому символу в сообщении
+        # Производим сдвиг
+        if char in RUS_ALPHA[::-1]:
+            if offset > len(RUS_ALPHA):  # Проверка на сдвиг больше ли число чем длина словаря
+                n = offset // len(RUS_ALPHA)
+                offset = offset - n * len(RUS_ALPHA)
+            rus_char_place = RUS_ALPHA.find(char)  # Ищем индекс символа
+            new_place = rus_char_place - offset  # Вычитаем из индекса сдвиг
+            if new_place >= len(RUS_ALPHA):  # Проверка что новый индекс меньше конечного индекса словаря
+                new_place = new_place - len(RUS_ALPHA)
         else:
-            eng_char_place = ENG_ALPHA.find(char)
-            new_place = eng_char_place - offset
-        if new_place > len(RUS_ALPHA):
-            new_place = new_place - len(RUS_ALPHA)
-        elif new_place > len(ENG_ALPHA):
-            new_place = new_place - len(ENG_ALPHA)
+            if offset > len(ENG_ALPHA):  # Проверка на сдвиг больше ли число чем длина словаря
+                n = offset // len(ENG_ALPHA)
+                offset = offset - n * len(ENG_ALPHA)
+            eng_char_place = ENG_ALPHA.find(char)  # Ищем индекс символа
+            new_place = eng_char_place - offset  # Вычитаем из индекса сдвиг
+            if new_place >= len(ENG_ALPHA):  # Проверка что новый индекс меньше конечного индекса словаря
+                new_place = new_place - len(ENG_ALPHA)
         if char in RUS_ALPHA:
             answer += RUS_ALPHA[new_place]
         elif char in ENG_ALPHA:
@@ -97,7 +99,7 @@ def decrypt():
     print(answer)
 
 
-def bruteforce(message):  # Проход по символам исходного сообщения
+def bruteforce(message, i):  # Проход по символам исходного сообщения
     global answer  # Будем записывать ответ в глобальную переменную
     op = "- i"
     for letter in message:  # Проход по символам
@@ -111,7 +113,7 @@ def bruteforce(message):  # Проход по символам исходног�
             answer += letter  # Если символ не буква, то просто добавляем его в ответ
 
 
-def choosing():
+def choosing():  # Проверка что выбрал пользователь
     global answer, mode_choose
     match mode_choose:
         case 1:
@@ -122,7 +124,7 @@ def choosing():
             message = input('Введите сообщение: ').upper()
             file_to_write.write(message)
             for i in range(1, 32):
-                bruteforce(message)
+                bruteforce(message, i)
                 print(f"Сдвиг {i}: {answer}")
                 file_to_write.write(f"{i} сдвиг:{answer}")
                 file_to_write.write(", ")
@@ -138,7 +140,6 @@ def choosing():
             my_file.close()
         case 6:
             ftp.retrlines('LIST')
-    file_to_write.close()
     mode_choose = input("Введите функцию:\n"
                         "1 - Шифрование\n"
                         "2 - Дешифровка\n"
@@ -152,6 +153,7 @@ def choosing():
     mode_choose = int(mode_choose)
 
 
-while mode_choose != 7:
+while mode_choose != 7:  # Пока пользователь не выбрал выход с сервера, продолжаем возврат в меню
     choosing()
+file_to_write.close()
 ftp.quit()
