@@ -1,25 +1,147 @@
 # Здесь когда-нибудь появится нейросеть из стаканов и бумажек, которая сможет играть в "11 палочек"
 
-# Пример словаря:
-manowar_songs = {1: 'Hail and Kill',
-                 2: 'Metal Warriors',
-                 3: 'The Sons of Odin',
-                 4: 'The Lord of Steel',
-                 5: 'The Power and the Glory',
-                 6: 'The Oath',
-                 7: 'The Sign of the Hammer',
-                 8: 'Return of the Warlord'}
-print(manowar_songs[2])  # Выводит 'Metal Warriors'
+import random
 
-# Примечание:
-# В словаре можно хранить любые базовые типы данных, в т.ч. списки и даже другие словари
+# Создаём словарь со стаканами
+the_glasses = {1: [1, 1, 1, 2, 2, 2],
+               2: [1, 1, 1, 2, 2, 2],
+               3: [1, 1, 1, 2, 2, 2],
+               4: [1, 1, 1, 2, 2, 2],
+               5: [1, 1, 1, 2, 2, 2],
+               6: [1, 1, 1, 2, 2, 2],
+               7: [1, 1, 1, 2, 2, 2],
+               8: [1, 1, 1, 2, 2, 2],
+               9: [1, 1, 1, 2, 2, 2],
+               10: [1, 1, 1, 2, 2, 2],
+               11: [1, 1, 1, 2, 2, 2]
+               }
+used_glasses = {}  # вывод словаря стаканов
+ai_is_winner = False  #
+keys = used_glasses.keys()  #
+player_wins = 0
+ai_wins = 0
+player_turn = True
+start_ai = False
 
-#  Начинаем заполнять стаканы бумажками.
-#  Стаканы - это словари, в которых будут храниться бумажки.
-#  Бумажки - это переменные с числом 1 или 2.
 
-# TODO:
-#   Создать словарь, имитирующий 11 стаканов с бумажками (цифры 1 и 2 по 3шт каждой)
-#   Удалить этот блок
-#   git commit
-#   git push
+def ai_move(situation):  # сделать ход (выбрать случайную бумажку из стакана и вернуть значение)
+    if situation == 1:
+        the_move = 1
+        used_glasses.update({situation: the_move})
+        print(f"ИИ взял {the_move} палочку")
+    else:
+        the_move = random.choice(the_glasses[situation])
+        used_glasses.update({situation: the_move})
+        print(f"ИИ взял {the_move} палочек")
+    return the_move
+
+
+def player_start():  # Начало игрока
+    situation = 11  # Изначальное число стаканов
+    global ai_is_winner, player_wins, ai_wins, player_turn, start_ai
+    while situation > 0:
+        print('-' * 50)
+        print(f"На столе {situation} палочек.")
+        print('-' * 50)
+        player_turn = True
+        if situation == 1:
+            print("Пользователь проиграл, осталась последняя палочка")
+            ai_is_winner = True
+            check_win()
+        choice = int(input("Сколько палочек взять (1 или 2): "))
+        while choice != 1 and choice != 2:
+            choice = int(input("Сказано же, дебил, одну или две!"))  # Человек выбирает сколько взять
+        situation = situation - choice  # Обновление игровой ситуации
+        print('-' * 50)
+        print(f"На столе {situation} палочек.")
+        print('-' * 50)
+        if situation <= 0:
+            print("Пользователь проиграл")
+            ai_is_winner = True
+            check_win()
+        print("Ход ИИ")
+        player_turn = False
+        situation = situation - ai_move(situation)  # Ход ИИ, обновление ситуации
+        if situation <= 0:
+            print("Компьютер проиграл")
+            ai_is_winner = False
+            check_win()
+
+
+def ai_start():  # Начало компьютера
+    situation = 11  # Изначальное число стаканов
+    global ai_is_winner, player_wins, ai_wins, player_turn, start_ai
+    while situation > 0:
+        player_turn = False
+        print("Ход ИИ")
+        situation = situation - ai_move(situation)  # Ход ИИ, обновление ситуации
+        print('-' * 50)
+        print(f"На столе {situation} палочек.")
+        print('-' * 50)
+        player_turn = True
+        if situation == 1:
+            print("Пользователь проиграл, осталась последняя палочка")
+            ai_is_winner = True
+            check_win()
+        elif situation <= 0:
+            if player_turn:
+                ai_is_winner = False
+            else:
+                ai_is_winner = True
+            check_win()
+        choice = int(input("Сколько палочек взять (1 или 2): "))
+        while choice != 1 and choice != 2:
+            choice = int(input("Сказано же, дебил, одну или две!"))  # Человек выбирает сколько взять
+        situation = situation - choice  # Обновление игровой ситуации
+        print('-' * 50)
+        print(f'На столе {situation} палочек.')
+        print('-' * 50)
+        player_turn = False
+    if situation <= 0:
+        print('-' * 50)
+        print(f"На столе {situation} палочек.")
+        print('-' * 50)
+        if player_turn:
+            ai_is_winner = True
+        else:
+            ai_is_winner = False
+        check_win()
+
+
+def check_win():
+    global ai_wins, player_wins
+    if ai_is_winner:
+        ai_wins += 1
+        if ai_wins == 10:
+            print('=' * 70)
+            print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+            print("Победил компьютер, он набрал 10 очков")
+            print(the_glasses)
+            exit()
+        else:
+            for chosen_numbers in keys:
+                the_glasses[chosen_numbers].append(used_glasses[chosen_numbers])
+            print('=' * 70)
+            print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+            print('=' * 70)
+            ai_start()
+    else:
+        player_wins += 1
+        if player_wins == 10:
+            print('=' * 70)
+            print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+            print("Победил игрок, он набрал 10 очков")
+            print(the_glasses)
+            exit()
+        else:
+            for chosen_numbers in keys:
+                the_glasses[chosen_numbers].remove(used_glasses[chosen_numbers])
+            print('=' * 70)
+            print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
+            print('=' * 70)
+            player_start()
+
+
+# print(the_glasses)
+if player_wins == 0 and ai_wins == 0:
+    player_start()
