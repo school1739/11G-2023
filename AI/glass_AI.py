@@ -115,6 +115,10 @@ def check_win():
             print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
             print("Победил компьютер, он набрал 10 очков")
             print(the_glasses)
+            for i in range(1, len(the_glasses) + 1):
+                print('-' * 50)
+                print(f'Процент выпадения 1 в {i} стаканчике:{round(the_glasses[i].count(1) / len(the_glasses[i]) * 100)} %')
+                print(f'Процент выпадения 2 в {i} стаканчике:{round(the_glasses[i].count(2) / len(the_glasses[i]) * 100)} %')
             exit()
         else:
             for chosen_numbers in keys:
@@ -130,6 +134,10 @@ def check_win():
             print(f"Игрок:{player_wins} \nКомпьютер:{ai_wins}")
             print("Победил игрок, он набрал 10 очков")
             print(the_glasses)
+            for i in range(1, len(the_glasses) + 1):
+                print('-' * 50)
+                print(f'Процент выпадения 1 в {i} стаканчике:{round((the_glasses[i].count(1)/len(the_glasses[i]))*100)} %')
+                print(f'Процент выпадения 2 в {i} стаканчике:{round(the_glasses[i].count(2) / len(the_glasses[i]) * 100)} %')
             exit()
         else:
             for chosen_numbers in keys:
