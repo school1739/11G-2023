@@ -1,6 +1,4 @@
 import random  # импорт библиотеки случайных чисел
-import pymorphy2
-morph = pymorphy2.MorphAnalyzer()
 
 # Создаём словарь стаканов
 the_glasses = {1: [1, 1, 1, 2, 2, 2],
@@ -17,7 +15,6 @@ the_glasses = {1: [1, 1, 1, 2, 2, 2],
 points_ai = 0
 points_user = 0
 count_rounds = 1
-stick = morph.parse('палочка')[0]
 
 def move(situation):  # сделать ход (выбрать случайную бумажку из стакана и вернуть значение)
     if situation == 1:
@@ -27,9 +24,9 @@ def move(situation):  # сделать ход (выбрать случайную
 
     print('Ходит ИИ:')
     if the_move == 1:
-        print(f'ИИ взял {the_move} палочку')
+        print(f'ИИ взял 1 палочку')
     else:
-        print(f'ИИ взял {the_move} {stick.make_agree_with_number(the_move).word}')
+        print(f'ИИ взял {the_move} палочек')
     used_glasses.update({situation: the_move})
     return the_move
 
@@ -51,7 +48,7 @@ while points_ai != 10 and points_user != 10:
     print('---------------------------')
     print(f'Счёт: Пользователь {points_user}:{points_ai} ИИ')
     print(f'{count_rounds}-й раунд!')
-    print(f'На столе {situation} {stick.make_agree_with_number(situation).word}')
+    print(f'На столе {situation} палочек')
     print('---------------------------')
     while situation > 0:
         if ai_is_winner == False:
@@ -62,7 +59,7 @@ while points_ai != 10 and points_user != 10:
                 situation -= 1
                 print('Ходит пользователь')
                 print('Пользователю ничего не остаётся, кроме как взять 1 палочку')
-                print(f'На столе {situation} {stick.make_agree_with_number(situation).word}')
+                print(f'На столе {situation} палочек')
                 print("Пользователь проиграл, ИИ выиграл")
                 ai_is_winner = True
                 break
@@ -71,12 +68,12 @@ while points_ai != 10 and points_user != 10:
             while choice != 1 and choice != 2:
                 choice = int(input("Сказано же, одну или две! "))  # Человек выбирает сколько взять
             situation = situation - choice  # Обновление игровой ситуации
-            print(f'На столе {situation} {stick.make_agree_with_number(situation).word}')
+            print(f'На столе {situation} палочек')
             if situation == 0:
                 print('ИИ проиграл, пользователь выиграл')
             else:
                 situation = situation - move(situation)  # Ход ИИ, обновление ситуации
-                print(f'На столе {situation} {stick.make_agree_with_number(situation).word}')
+                print(f'На столе {situation} палочек')
 
                 if situation == 0:
                     print('ИИ проиграл, пользователь выиграл')
@@ -89,12 +86,26 @@ while points_ai != 10 and points_user != 10:
 
     used_glass_fill()
 
+print()
+print('---------------------------')
 print(f'Окончательный счёт: Пользователь {points_user}:{points_ai} ИИ')
 if points_ai > points_user:
     print('Победа ИИ')
 else:
     print('Победил пользователь')
-
+print('---------------------------')
+print()
+print('Вывод содержимого стаканов')
+for number, content in the_glasses.items():
+    print(f'{number}-й стакан: {content}')
+print('---------------------------')
+print()
+print('Вывод шанса выпадения 1 или 2 для каждого стакана')
+for number, content in the_glasses.items():
+    try:
+        print(f'{number}-й стакан:\nШанс выпадения 1 - {round((content.count(1)/len(content))*100, 1)}%\nШанс выпадения 2 - {round((content.count(2)/len(content))*100, 1)}%')
+    except:
+        print(f'{number}-й стакан:\nШанс выпадения 1 - 0.0%\nШанс выпадения 2 - 0.0%')
 
 
 
