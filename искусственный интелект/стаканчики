@@ -1,0 +1,93 @@
+import random # РёРјРїРѕСЂС‚ Р±РёР±Р»РёРѕС‚РµРєРё СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
+the_glasses={1:[1,1,1,2,2,2],
+             2:[1,1,1,2,2,2],
+             3:[1,1,1,2,2,2],
+             4:[1,1,1,2,2,2],
+             5:[1,1,1,2,2,2],
+             6:[1,1,1,2,2,2],
+             7:[1,1,1,2,2,2],
+             8:[1,1,1,2,2,2],
+             9:[1,1,1,2,2,2],
+             10:[1,1,1,2,2,2],
+             11:[1,1,1,2,2,2]}
+
+used_glasses={}  # СЃР»РѕРІР°СЂСЊ РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹С… СЃС‚Р°РєР°РЅРѕРІ
+ai_is_winner = True
+human_wins = 0
+ai_wins = 0
+
+def move(situation): # СЃРґРµР»Р°С‚СЊ С…РѕРґ (РІС‹Р±СЂР°С‚СЊ СЃР»СѓС‡Р°Р№РЅСѓСЋ Р±СѓРјР°Р¶РєСѓ РёР· СЃС‚Р°РєР°РЅР° Рё РІРµСЂРЅСѓС‚СЊ Р·РЅР°С‡РµРЅРёРµ)
+  if situation == 1:
+    print('РҐРѕРґРёС‚ Р�Р�:')
+    the_move = 1
+  else:
+    if situation != 0:
+      print('РҐРѕРґРёС‚ Р�Р�:')
+      the_move = random.choice(the_glasses[situation])
+  print(f'Р�Р� РІС‹Р±СЂР°Р»: {the_move}')
+  used_glasses.update({situation: the_move})
+  return the_move
+
+
+def glass_update(used_glasses, the_glasses):
+    if ai_is_winner == True:
+      for key in used_glasses:
+        the_glasses[key].append(used_glasses[key])
+    else:
+      for key in used_glasses:
+        if used_glasses[key] in the_glasses[key]:
+          the_glasses[key].remove(used_glasses[key])
+    return the_glasses
+
+while ai_wins != 10 and human_wins != 10:
+  situation = 11
+  print(f"РќР° СЃС‚РѕР»Рµ {situation} РїР°Р»РѕС‡РµРє.")
+  while situation > 0:
+    if ai_is_winner==True:
+      if situation == 1:
+        choice = 1
+        last_choice = 'Р§РµР»РѕРІРµРє'
+        print('РќРёС‡РµРіРѕ РЅРµ РѕСЃС‚Р°РµС‚СЃСЏ, РєСЂРѕРјРµ РєР°Рє РІР·СЏС‚СЊ 1 РїР°Р»РѕС‡РєСѓ')
+        situation=situation - choice
+      else:
+        choice=int(input('РЎРєРѕР»СЊРєРѕ РїР°Р»РѕС‡РµРє РІР·СЏС‚СЊ? 1 РёР»Рё 2? '))
+        last_choice = 'Р§РµР»РѕРІРµРє'
+        while choice!=1 and choice!=2:
+          choice=int(input("1 РёР»Рё 2, РЅРµРѕР±СЂР°Р·РѕРІР°РЅРЅРѕРµ С‡РјРѕ!!!!"))
+        situation=situation - choice
+        print(f"РќР° СЃС‚РѕР»Рµ {situation} РїР°Р»РѕС‡РµРє.")
+        if situation != 0:
+          situation = situation - move(situation)
+          last_choice = 'Р�Р�'
+          print(f"РќР° СЃС‚РѕР»Рµ {situation} РїР°Р»РѕС‡РµРє.")
+    else:
+      if situation != 0:
+        situation = situation - move(situation)
+        last_choice = 'Р�Р�'
+        print(f"РќР° СЃС‚РѕР»Рµ {situation} РїР°Р»РѕС‡РµРє.")
+        if situation == 1:
+          choice = 1
+          last_choice = 'Р§РµР»РѕРІРµРє'
+          print('РќРёС‡РµРіРѕ РЅРµ РѕСЃС‚Р°РµС‚СЃСЏ, РєСЂРѕРјРµ РєР°Рє РІР·СЏС‚СЊ 1 РїР°Р»РѕС‡РєСѓ')
+          situation=situation - choice
+        else:
+          if situation != 0:
+            choice=int(input('РЎРєРѕР»СЊРєРѕ РїР°Р»РѕС‡РµРє РІР·СЏС‚СЊ? 1 РёР»Рё 2? '))
+            last_choice = 'Р§РµР»РѕРІРµРє'
+            while choice!=1 and choice!=2:
+              choice=int(input("1 РёР»Рё 2, РЅРµРѕР±СЂР°Р·РѕРІР°РЅРЅРѕРµ С‡РјРѕ!!!!"))
+            situation=situation - choice
+            print(f"РќР° СЃС‚РѕР»Рµ {situation} РїР°Р»РѕС‡РµРє.")
+  print(f'{last_choice} РїСЂРѕРёРіСЂР°Р»')
+  if last_choice == 'Р�Р�':
+    ai_is_winner = False
+    human_wins += 1
+  else:
+    ai_is_winner = True
+    ai_wins += 1
+  glass_update(used_glasses, the_glasses)
+if ai_is_winner == True:
+  print('РџРѕ РёС‚РѕРіР°Рј РёРіСЂС‹ РїРѕР±РµРґРёР» Р�Р�')
+else:
+  print('РџРѕ РёС‚РѕРіР°Рј РёРіСЂС‹ РїРѕР±РµРґРёР» Р§РµР»РѕРІРµРє')
+#print(the_glasses)
