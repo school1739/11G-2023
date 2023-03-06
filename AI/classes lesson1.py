@@ -21,7 +21,7 @@ dick = Human()
 
 dick.hello()
 
-print(rick, nick,dick)
+print(rick, nick, dick)
 
 rick.say_hello()
 nick.say_this()
