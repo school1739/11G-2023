@@ -8,10 +8,10 @@ class Neuron(dendrite_count, theta, weights):
         self.weights = weights
 
     def activation(self, inputs):
-        sum = 0
+        weighted_sum = 0
         for i in range(0, self.dendrite_count):
-            sum += inputs[i] * self.weights[i]
-        return 1 / (1 + math.exp(-sum - self.theta))
+            weighted_sum += inputs[i] * self.weights[i]
+        return 1 / (1 + math.exp(-weighted_sum - self.theta))
 
 
 class Layer(neuron_count, neurons):
