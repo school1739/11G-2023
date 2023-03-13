@@ -1,4 +1,4 @@
-# pep8
+'''# pep8
 # Переменные some_peremennaya
 # Классы: SomeClass
 # Функции: some_function
@@ -47,7 +47,9 @@ class Cat:
 
 
 
-'''simons_cat=Cat('Rick')
+'''
+
+'''simons_cat =Cat('Rick')
 print(simons_cat)
 print(simons_cat.name, simons_cat.age)
 print(type(simons_cat.name), type(simons_cat.age))
@@ -61,7 +63,7 @@ the_age=int(input('Введите новый возраст кота'))
 simons_cat.age += the_age
 
 simons_cat.set_age(25)
-print(simons_cat.__age, simons_cat.__name)'''
+print(simons_cat.__age, simons_cat.__name)
 
 
 simons_cat = Cat('Nick')
@@ -70,3 +72,69 @@ print(simons_cat.get_name(), simons_cat.get_age())
 simons_cat.name='Dick'
 print(simons_cat.get_name())
  # 123
+class Human: # Создаем новый класс
+    def __init__(self, name): # Конструктор
+        print(f'Родился человек с именем {name}!') # Сообщение о создании новой сущности
+        self.__name = name # инкапсулированные свойства
+        self.__age = 0
+        self.__health = 100
+        self.__height = 35
+
+    @property # Начало Getter (получатель/возвращатель)
+    def age(self):
+        return self.__age
+
+    @age.setter # Начало Setter (установитель) свойства
+    def age(self, new_age):
+        if 1<new_age<100:
+            self.__age = new_age
+        else:
+            print('No.')
+
+class Student(Human):
+    def school(self):
+        self.school = 1739
+        print()
+
+
+male_1 = Human('Rick') # Создание сущности класса Human с именем Rick
+female_1 = Human('Doro')
+'''
+
+'''
+class Human():
+    def __init__(self, _name):
+        print(f"Родился человек с именем {_name}")
+        self.name = _name
+
+    @property
+    def name(self):
+        return self.name
+
+    @name.setter
+    def name(self, new_name):
+        self.name = new_name
+
+class Student(Human):
+    def __init__(self, _name):
+        super().__init__(_name)
+        self.grade = None
+        self.univer = None
+
+    def study(self, _univer):
+        print(f"{self.name} is in {_univer}")
+        self.univer = _univer
+
+    @property
+    def grade(self):
+        print()
+        return self.grade
+
+    @grade.setter
+    def grade(self, _grade):
+        self.grade = _grade
+
+rick = Student("rick")
+rick.study("МАИ")
+rick.study(1)
+print(rick.univer)'''
