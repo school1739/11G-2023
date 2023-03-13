@@ -89,12 +89,12 @@ class Student(Human):
         super().__init__(family_name)
         self.__grade = 0
 
-        @property
-        def grade(self):
-            return self.__grade
-        @grade.setter
-        def grade(self, grade):
-            self.__grade = grade
+    @property
+    def grade(self):
+        return self.__grade
+    @grade.setter
+    def grade(self, grade):
+        self.__grade = grade
 
 
 
