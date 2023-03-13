@@ -25,7 +25,7 @@ nick.say_this('Hello yourself')
 dick.hello()'''
 
 #Конструктор
-class Cat:
+'''class Cat:
     def __init__(self, name):
         self.__name = name # свойство ИМя для обьекта класса CAT
         self.__age = 0 # __ - знак инкапсуляции
@@ -47,7 +47,7 @@ class Cat:
         print(f"My name is {self.__name}, my age is {self.__age}")
 
 simons_cat = Cat('Rick')
-print(simons_cat.get_name(), simons_cat.get_age())
+print(simons_cat.get_name(), simons_cat.get_age())'''
 
 '''print(simons_cat.__name, simons_cat.__age)
 print(type(simons_cat.__name), type(simons_cat.__age))
@@ -63,6 +63,19 @@ simons_cat.set_age(25)
 print(simons_cat.__cat, simons_cat.__age)'''
 
 
+# Егорова Лопин
+'''class Human: # Объявление класса
+    def __init__(self, name): # описание метода класса
+        self.__name = name
+
+    @property
+    def name(self):
+        return self.__name = name
+
+
+    @name.setter
+    def name(self, name):
+        self.__name = name
 
 
 
@@ -71,6 +84,22 @@ print(simons_cat.__cat, simons_cat.__age)'''
 
 
 
+class Student(Human):
+    def __init__(self, family_name):
+        super().__init__(family_name)
+        self.__grade = 0
+
+        @property
+        def grade(self):
+            return self.__grade
+        @grade.setter
+        def grade(self, grade):
+            self.__grade = grade
+
+
+
+    def study(self, univer):
+        print(f"{self.name}is in {univer}")'''
 
 
 
