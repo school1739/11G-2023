@@ -8,12 +8,14 @@ answer = ""
 
 
 mode_choice = input("Выберите режим работы:\n"  # Ввод режима работы
-                    "1 - шифрование\n"
-                    "2 - дешифрование\n"
-                    "3 - bruteforce\n"
+                    "1 - Шифрование\n"
+                    "2 - Дешифрование\n"
+                    "3 - Bruteforce\n"
                     "4 - Отправить файл\n"
-                    "5 - Скачать файл\n")
-while mode_choice not in "12345":  # Защита от дурака
+                    "5 - Скачать файл\n"
+                    "6 - Список файлов\n"
+                    "7 - Выход\n")
+while mode_choice not in "1234567":  # Защита от дурака
     mode_choice = input("Неверный режим работы. Попробуйте ещё раз: ")
 mode_choice = int(mode_choice)
 
@@ -41,59 +43,79 @@ def iterate_text(text, mode):  # Проход по символам исходн
             answer += letter  # Если символ не буква, то просто добавляем его в ответ
 
 
-match mode_choice:  # Включение режима работы, соответствующего выбранному пользователем
-    case 1:
-        file_to_write = open("Bebralavin.txt", "w", encoding="utf-8")
-        text = input("Введите текст: ").upper()  # Ввод исходного сообщения
-        offset = int(input("Введите сдвиг: "))
-        iterate_text(text, "encrypt")
-        print(answer)
-        file_to_write.write("Шифровка:")
-        file_to_write.write(text)
-        file_to_write.write(" - ")
-        file_to_write.write(answer)
-        file_to_write.close()
-    case 2:
-        file_to_write = open("Bebralavin.txt", "w", encoding="utf-8")
-        text = input("Введите текст: ").upper()  # Ввод исходного сообщения
-        offset = int(input("Введите сдвиг: "))
-        iterate_text(text, "decrypt")
-        print(answer)
-        file_to_write.write("Дешифровка:")
-        file_to_write.write(text)
-        file_to_write.write(" - ")
-        file_to_write.write(answer)
-        file_to_write.close()
-    case 3:
-        file_to_write = open("Bebralavin.txt", "w", encoding="utf-8")
-        text = input("Введите текст: ").upper()  # Ввод исходного сообщения
-        file_to_write.write("bruteforce:")
-        file_to_write.write(text)
-        file_to_write.write(" - ")
-        for i in range(1, 32):
-            iterate_text(text, "bruteforce")
-            print(f"Сдвиг {i}: {answer}")
-            file_to_write.write(f"{i} сдвиг:{answer}")
-            file_to_write.write(", ")
-            answer = ""
-        file_to_write.close()
-    case 4:
-        ftp = FTP()
-        ftp.connect(HOST, PORT)
-        ftp.login(USER, PASSWORD)
-        file_name = input("Какой файл отправить?\n")
-        ftp.storbinary('STOR ' + file_name, open(file_name, "rb"))  # rb - Чтение двоичного файла
-        ftp.quit()
-    case 5:
-        ftp = FTP()
-        ftp.connect(HOST, PORT)
-        ftp.login(USER, PASSWORD)
-        ftp.retrlines('LIST')
-        file_name = input("Выберите файл для скачивания:")
-        my_file = open(file_name, 'wb')  # wb - Запись двоичного файла
-        ftp.retrbinary('RETR ' + file_name, my_file.write, 1024)
-        ftp.quit()
-        my_file.close()
-    case _:  # Защита от дурака
-        print("Неверный режим работы")
+while mode_choice != 7:
 
+    match mode_choice:  # Включение режима работы, соответствующего выбранному пользователем
+        case 1:
+            answer = ''
+            file_to_write = open("Bebralavin.txt", "w", encoding="utf-8")
+            text = input("Введите текст: ").upper()  # Ввод исходного сообщения
+            offset = int(input("Введите сдвиг: "))
+            iterate_text(text, "encrypt")
+            print(answer)
+            file_to_write.write("Шифровка:")
+            file_to_write.write(text)
+            file_to_write.write(" - ")
+            file_to_write.write(answer)
+            file_to_write.close()
+        case 2:
+            answer = ''
+            file_to_write = open("Bebralavin.txt", "w", encoding="utf-8")
+            text = input("Введите текст: ").upper()  # Ввод исходного сообщения
+            offset = int(input("Введите сдвиг: "))
+            iterate_text(text, "decrypt")
+            print(answer)
+            file_to_write.write("Дешифровка:")
+            file_to_write.write(text)
+            file_to_write.write(" - ")
+            file_to_write.write(answer)
+            file_to_write.close()
+        case 3:
+            answer = ''
+            file_to_write = open("Bebralavin.txt", "w", encoding="utf-8")
+            text = input("Введите текст: ").upper()  # Ввод исходного сообщения
+            file_to_write.write("bruteforce:")
+            file_to_write.write(text)
+            file_to_write.write(" - ")
+            for i in range(1, 32):
+                iterate_text(text, "bruteforce")
+                print(f"Сдвиг {i}: {answer}")
+                file_to_write.write(f"{i} сдвиг:{answer}")
+                file_to_write.write(", ")
+                answer = ""
+            file_to_write.close()
+        case 4:
+            ftp = FTP()
+            ftp.connect(HOST, PORT)
+            ftp.login(USER, PASSWORD)
+            file_name = input("Какой файл отправить?\n")
+            ftp.storbinary('STOR ' + file_name, open(file_name, "rb"))  # rb - Чтение двоичного файла
+            ftp.quit()
+        case 5:
+            ftp = FTP()
+            ftp.connect(HOST, PORT)
+            ftp.login(USER, PASSWORD)
+            ftp.retrlines('LIST')
+            file_name = input("Выберите файл для скачивания:")
+            my_file = open(file_name, 'wb')  # wb - Запись двоичного файла
+            ftp.retrbinary('RETR ' + file_name, my_file.write, 1024)
+            ftp.quit()
+            my_file.close()
+        case 6:
+            ftp = FTP()
+            ftp.connect(HOST, PORT)
+            ftp.login(USER, PASSWORD)
+            ftp.retrlines('LIST')
+        case _:  # Защита от дурака
+            print("Неверный режим работы")
+
+
+    mode_choice = input("Выберите режим работы:\n"  # Ввод режима работы
+                            "1 - Шифрование\n"
+                            "2 - Дешифрование\n"
+                            "3 - Bruteforce\n"
+                            "4 - Отправить файл\n"
+                            "5 - Скачать файл\n"
+                            "6 - Список файлов\n"
+                            "7 - Выход\n")
+    mode_choice = int(mode_choice)
