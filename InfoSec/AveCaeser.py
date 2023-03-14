@@ -1,13 +1,17 @@
+#Гончаров Евгений
 from ftplib import FTP
+
 Host = "vh.388.timeweb.ru"
 Port = 21
 User = "bormotoon_infosec"
 Password = "zfyLKkD3"
-client = FTP(Host, User, Password)
+client = FTP()
+client.connect(Host, Port)
+client.login(User, Password)
 client.encoding = "utf-8"
-Alphabet_RU = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-Alphabet_EN = "ABCDEFGHIKLMNOPQRSTVXYZ"
-#filename = "CaeserLog.txt"
+
+ENG_ALPHA = "ABCDEFGHIKLMNOPQRSTVXYZ"
+RUS_ALPHA = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 
 #with open(filename, "rb") as file:
 #    client.storbinary(f"STOR {filename}", file)
@@ -20,50 +24,137 @@ Alphabet_EN = "ABCDEFGHIKLMNOPQRSTVXYZ"
 #w - write
 #a - append
 
-def main():
-    while True:
-        message = input("Введите сообщение : ").upper()
-        if message == "":
-            break
-        print("Encrypt - 1")
-        print("Decrypt - 2")
-        print("Brute force - 3")
-        choice = int(input("Выберите режим : "))
-        match choice:
-            case 1:
-                fileToWrite.write(f"\nencrypt {encrypt(message, int(input('Сдвиг : ')))} \n")
-            case 2:
-                fileToWrite.write(f"\ndecrypt {decrypt(message, int(input('Сдвиг : ')))} \n")
-            case 3:
-                bruteforce(message)
-            case _:
-                print("Ошибка ввода")
+mode_chosen = input("Input function :\n"
+                    "1 - Encrypt\n"
+                    "2 - Decrypt\n"
+                    "3 - Bruteforce\n"
+                    "4 - Upload file\n"
+                    "5 - Download file\n"
+                    "6 - View the list of files\n"
+                    "7 - Logout from the server\n")
 
-def encrypt(message, offset):
+while mode_chosen not in '1234567':
+    mode_chosen = input("Попробуйте ввести еще раз:")
+mode_chosen = int(mode_chosen)
+file_to_write = open("CaesarLog.txt", "w", encoding="utf-8")
+answer = ''
+
+def encrypt():
     answer = ""
+    message = input('Input a message : ').upper()
+    offset = int(input('Input a offset : '))
     for char in message:
-        if char in Alphabet_RU:
-            answer += Alphabet_RU[(Alphabet_RU.find(char) + offset) % len(Alphabet_RU)]
-        elif char in Alphabet_EN:
-            answer += Alphabet_EN[(Alphabet_EN.find(char) + offset) % len(Alphabet_EN)]
+        if char in RUS_ALPHA:
+            if offset > len(RUS_ALPHA):
+                n = offset // len(RUS_ALPHA)
+                offset = offset - n * len(RUS_ALPHA)
+            rus_char_place = RUS_ALPHA.find(char)
+            new_place = rus_char_place + offset 
+            if new_place >= len(RUS_ALPHA):  
+                new_place = new_place - len(RUS_ALPHA)
+        else:
+            if offset > len(ENG_ALPHA):  
+                n = offset // len(ENG_ALPHA)
+                offset = offset - n * len(ENG_ALPHA)
+            eng_char_place = ENG_ALPHA.find(char)  
+            new_place = eng_char_place + offset
+            if new_place >= len(ENG_ALPHA):
+                new_place = new_place - len(ENG_ALPHA)
+        
+        if char in RUS_ALPHA:
+            answer += RUS_ALPHA[new_place]
+        elif char in ENG_ALPHA:
+            answer += ENG_ALPHA[new_place]
         else:
             answer += char
-    return answer
+    file_to_write.write(f"Encrypt : {message} - {answer}")
+    print(answer)
 
-def decrypt(message, offset):
+def decrypt():
     answer = ""
+    message = input('Input a message : ').upper()
+    offset = int(input('Input a offset : '))
     for char in message:
-        if char in Alphabet_RU:
-            answer += Alphabet_RU[(Alphabet_RU.find(char) - offset) % len(Alphabet_RU)]
-        elif char in Alphabet_EN:
-            answer += Alphabet_EN[(Alphabet_EN.find(char) - offset) % len(Alphabet_EN)]
+        if char in RUS_ALPHA[::-1]:
+            if offset > len(RUS_ALPHA):
+                n = offset // len(RUS_ALPHA)
+                offset = offset - n * len(RUS_ALPHA)
+            rus_char_place = RUS_ALPHA.find(char)
+            new_place = rus_char_place - offset
+            if new_place >= len(RUS_ALPHA):
+                new_place = new_place - len(RUS_ALPHA)
+        else:
+            if offset > len(ENG_ALPHA):
+                n = offset // len(ENG_ALPHA)
+                offset = offset - n * len(ENG_ALPHA)
+            eng_char_place = ENG_ALPHA.find(char)
+            new_place = eng_char_place - offset
+            if new_place >= len(ENG_ALPHA):
+                new_place = new_place - len(ENG_ALPHA)
+        
+        if char in RUS_ALPHA:
+            answer += RUS_ALPHA[new_place]
+        elif char in ENG_ALPHA:
+            answer += ENG_ALPHA[new_place]
         else:
             answer += char
-    return answer
+    file_to_write.write(f"Decrypt : {message} - {answer}")
+    print(answer)
 
-def bruteforce(message):
-    fileToWrite.write(f"\nbruteforce {message}: \n")
-    for i in range(len(Alphabet_RU)):
-        fileToWrite.write(f"{i} : {encrypt(message, i)}\n")
+def bruteforce(message, i):
+    global answer
+    o = "- i"
+    
+    for letter in message:
+        if letter in ENG_ALPHA:
+            answer += ENG_ALPHA[eval("(ENG_ALPHA.index(letter))" + o + "% len(ENG_ALPHA)")]
+        elif letter in RUS_ALPHA:
+            answer += RUS_ALPHA[eval("RUS_ALPHA.index(letter)" + o + "% len(RUS_ALPHA)")]
+        else:
+            answer += letter
 
-main()
+def choose():
+    global answer
+    global mode_chosen
+    match mode_chosen:
+        case 1:
+            encrypt()
+        case 2:
+            decrypt()
+        case 3:
+            message = input('Input a message : ').upper()
+            file_to_write.write(message)
+            for i in range(1, 32):
+                bruteforce(message, i)
+                file_to_write.write(f"offset {i} : {answer}, ")
+                print(f"offset {i} : {answer}")
+                answer = ""
+        case 4:
+            file_name = input("Choose the file to upload : \n")
+            client.storbinary('STOR ' + file_name, open(file_name, "rb"))
+        case 5:
+            client.retrlines('LIST')
+            file_name = input("Choose the file to download : ")
+            myfile = open(file_name, 'wb')
+            client.retrbinary('RETR ' + file_name, myfile.write, 1024)
+            myfile.close()
+        case 6:
+            client.retrlines('LIST')
+
+    mode_chosen = input("Input function :\n"
+                        "1 - Encrypt\n"
+                        "2 - Decrypt\n"
+                        "3 - Bruteforce\n"
+                        "4 - Upload file\n"
+                        "5 - Download file\n"
+                        "6 - View the list of files\n"
+                        "7 - Logout from the server\n")
+
+    while mode_chosen not in '1234567':
+        mode_chosen = input("Incorrect input. Try again.")
+    mode_chosen = int(mode_chosen)
+    
+while mode_chosen != 7:
+    choose()
+file_to_write.close()
+client.quit()
