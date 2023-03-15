@@ -46,10 +46,11 @@ print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, '�
 #   и т.д. на складе
 # Формат строки <товар> - <кол-во> шт, стоимость <общая стоимость> руб
 
-for good, article in dict(list(goods.items())[1:]).items():
+
+for good, number in goods.items():
     quantity = 0
     cost = 0
-    for storage in store[article]:
+    for storage in store[number]:
         quantity += storage['quantity']
         cost += storage['quantity'] * storage['price']
     print(str(good) + ' - ' + str(quantity) + ' шт, стоимость ' + str(cost) + ' руб')
