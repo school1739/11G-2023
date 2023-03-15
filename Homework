@@ -1,0 +1,187 @@
+№ 1
+violator_songs_list = [
+    ['World in My Eyes', 4.86],
+    ['Sweetest Perfection', 4.43],
+    ['Personal Jesus', 4.56],
+    ['Halo', 4.9],
+    ['Waiting for the Night', 6.07],
+    ['Enjoy the Silence', 4.20],
+    ['Policy of Truth', 4.76],
+    ['Blue Dress', 4.29],
+    ['Clean', 5.83],
+]
+three_songs = violator_songs_list[3][1] + violator_songs_list[5][1] + violator_songs_list[8][1]
+three_songs = round(three_songs, 2)
+print('Три песни звучат', three_songs)
+
+
+№ 2
+pocket_universe_songs = {
+    'Solar Driftwood': 1.85,
+    'Celsius': 5.98,
+    'More': 6.65,
+    'On Track': 5.55,
+    'Monolith': 6.35,
+    'To the Sea': 5.77,
+    'Magnetic': 5.88,
+    'Liquid Mountain': 2.97,
+    'Pan Blue': 5.52,
+    'Resistor': 7.22,
+    'Beyond Mirrors': 5.82,
+}
+another_three_songs = pocket_universe_songs['On Track'] + pocket_universe_songs['To the Sea'] + \
+                      pocket_universe_songs['Beyond Mirrors']
+another_three_songs = round(another_three_songs, 2)
+print('А другие 3 песни звучат приблизительно', another_three_songs)
+
+
+№ 3
+secret_message = [
+    'квевтфпп6щ3стмзалтнмаршгб5длгуча',
+    'дьсеы6лц2бане4т64ь4б3ущея6втщл6б',
+    'т3пплвце1н3и2кд4лы12чф1ап3бкычаь',
+    'ьд5фму3ежородт9г686буиимыкучшсал',
+    'бсц59мегщ2лятьаьгенедыв9фк9ехб1а',
+]
+print(secret_message[0][3] + ' ' + secret_message[1][9:13] + ' ' + secret_message[2][5:14:2]
+      + ' ' + secret_message[3][12:6:-1] + ' ' + secret_message[4][20:15:-1])
+      
+      
+№ 4
+garden = ('ромашка', 'роза', 'одуванчик', 'ромашка', 'гладиолус', 'подсолнух', 'роза',)
+
+meadow = ('клевер', 'одуванчик', 'ромашка', 'клевер', 'мак', 'одуванчик', 'ромашка',)
+
+garden_set = set(garden)
+meadow_set = set(meadow)
+
+print(garden_set | meadow_set)
+
+print(garden_set & meadow_set)
+
+print(garden_set - meadow_set)
+
+print(meadow_set - garden_set)
+
+
+№ 5 shops = {
+    'ашан':
+        [
+            {'name': 'печенье', 'price': 10.99},
+            {'name': 'конфеты', 'price': 34.99},
+            {'name': 'карамель', 'price': 45.99},
+            {'name': 'пирожное', 'price': 67.99}
+        ],
+    'пятерочка':
+        [
+            {'name': 'печенье', 'price': 9.99},
+            {'name': 'конфеты', 'price': 32.99},
+            {'name': 'карамель', 'price': 46.99},
+            {'name': 'пирожное', 'price': 59.99}
+        ],
+    'магнит':
+        [
+            {'name': 'печенье', 'price': 11.99},
+            {'name': 'конфеты', 'price': 30.99},
+            {'name': 'карамель', 'price': 41.99},
+            {'name': 'пирожное', 'price': 62.99}
+        ],
+}
+sweets = {
+    'печенье': [
+        {'shop': 'ашан', 'price': 10.99},
+        {'shop': 'пятерочка', 'price': 9.99}
+    ],
+    'конфеты': [
+        {'shop': 'пятерочка', 'price': 32.99},
+        {'shop': 'магнит', 'price': 30.99}
+    ],
+    'карамель': [
+        {'shop': 'ашан', 'price': 45.99},
+        {'shop': 'магнит', 'price': 41.99}
+    ],
+    'пирожное': [
+        {'shop': 'пятерочка', 'price': 59.99},
+        {'shop': 'магнит', 'price': 62.99}
+    ]
+}
+print(sweets)
+
+№ 6
+goods = {
+    'Лампа': '12345',
+    'Стол': '23456',
+    'Диван': '34567',
+    'Стул': '45678',
+}
+
+# Есть словарь списков количества товаров на складе.
+
+store = {
+    '12345': [
+        {'quantity': 27, 'price': 42},
+    ],
+    '23456': [
+        {'quantity': 22, 'price': 510},
+        {'quantity': 32, 'price': 520},
+    ],
+    '34567': [
+        {'quantity': 2, 'price': 1200},
+        {'quantity': 1, 'price': 1150},
+    ],
+    '45678': [
+        {'quantity': 50, 'price': 100},
+        {'quantity': 12, 'price': 95},
+        {'quantity': 43, 'price': 97},
+    ],
+}
+lamp_code = goods['Лампа']
+lamps_item = store[lamp_code][0]
+lamps_quantity = lamps_item['quantity']
+lamps_price = lamps_item['price']
+lamps_cost = lamps_quantity * lamps_price
+print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, 'руб')
+
+
+table_code = goods['Стол']
+tables_item_1 = store[table_code][0]
+tables_quantity_1 = tables_item_1['quantity']
+tables_price_1 = tables_item_1['price']
+tables_cost_1 = tables_quantity_1 * tables_price_1
+tables_item_2 = store[table_code][1]
+tables_quantity_2 = tables_item_2['quantity']
+tables_price_2 = tables_item_2['price']
+tables_cost_2 = tables_quantity_2 * tables_price_2
+tables_quantity = tables_quantity_1 + tables_quantity_2
+tables_cost = tables_cost_1 + tables_cost_2
+print('Стол -', tables_quantity, 'шт, стоимость', tables_cost, 'руб')
+
+sofa_code = goods['Диван']
+sofas_item_1 = store[sofa_code][0]
+sofas_quantity_1 = sofas_item_1['quantity']
+sofas_price_1 = sofas_item_1['price']
+sofas_cost_1 = sofas_quantity_1 * sofas_price_1
+sofas_item_2 = store[sofa_code][1]
+sofas_quantity_2 = sofas_item_2['quantity']
+sofas_price_2 = sofas_item_2['price']
+sofas_cost_2 = sofas_quantity_2 * sofas_price_2
+sofas_quantity = sofas_quantity_1 + sofas_quantity_2
+sofas_cost = sofas_cost_1 + sofas_cost_2
+print('Диван -', sofas_quantity, 'шт, стоимость', sofas_cost, 'руб')
+
+chair_code = goods['Стул']
+chairs_item_1 = store[chair_code][0]
+chairs_quantity_1 = chairs_item_1['quantity']
+chairs_price_1 = chairs_item_1['price']
+chairs_cost_1 = chairs_quantity_1 * chairs_price_1
+chairs_item_2 = store[chair_code][1]
+chairs_quantity_2 = chairs_item_2['quantity']
+chairs_price_2 = chairs_item_2['price']
+chairs_cost_2 = chairs_quantity_2 * chairs_price_2
+chairs_item_3 = store[chair_code][2]
+chairs_quantity_3 = chairs_item_3['quantity']
+chairs_price_3 = chairs_item_3['price']
+chairs_cost_3 = chairs_quantity_3 * chairs_price_3
+chairs_quantity = chairs_quantity_1 + chairs_quantity_2 + chairs_quantity_3
+chairs_cost = chairs_cost_1 + chairs_cost_2 + chairs_cost_3
+print('Стол -', chairs_quantity, 'шт, стоимость', chairs_cost, 'руб')
