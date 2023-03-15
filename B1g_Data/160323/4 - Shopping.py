@@ -48,7 +48,6 @@ sweets = {
     ]
 }
 # Указать надо только по 2 магазина с минимальными ценами
-
 ash_price = shops['ашан'][0]['price'] + shops['ашан'][1]['price'] + shops['ашан'][2]['price'] + shops['ашан'][3]['price']
 pyat_price = shops['пятерочка'][0]['price'] + shops['пятерочка'][1]['price'] + shops['пятерочка'][2]['price'] + shops['пятерочка'][3]['price']
 mag_price = shops['магнит'][0]['price'] + shops['магнит'][1]['price'] + shops['магнит'][2]['price'] + shops['магнит'][3]['price']
@@ -57,7 +56,6 @@ shop_prices = {
     'Пятерочка': pyat_price,
     'Магнит': mag_price
 }
-min_1 = min(shop_prices)
-shop_prices.pop(min_1)
-min_2 = min(shop_prices)
-print(min_1, min_2)
+max_price = max(shop_prices)
+shop_prices.pop(max_price)
+print(*shop_prices.keys())

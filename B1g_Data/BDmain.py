@@ -12,9 +12,10 @@ zer_ind = 0
 
 
 def minor(a, del_el):
+    import copy
+    minor = copy.deepcopy(a)
     global zer_ind
     del_el -= 1
-    minor = a.copy()
     # Считаем макс. кол-во нулей и запоминаем индекс
     max_zer = 0
     for count_zer in minor:
@@ -29,8 +30,13 @@ def minor(a, del_el):
     return minor
 
 
-def calculate_det(matrix):
+def calculate_det():
     pass
+    det = the_matrix[zer_ind][0] * minor(the_matrix, 1) * -1 ** (1 + zer_ind + 1) + \
+          -1 ** (2 + zer_ind + 1) * the_matrix[zer_ind][1] * minor(the_matrix, 2) + \
+          -1 ** (3 + zer_ind + 1) * the_matrix[zer_ind][2] * minor(the_matrix, 3) + \
+          -1 ** (4 + zer_ind + 1) * the_matrix[zer_ind][3] * minor(the_matrix, 4)
+    return det
 
 
 print(minor(the_matrix, 1))
