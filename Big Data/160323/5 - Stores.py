@@ -31,14 +31,14 @@ store = {
 # Рассчитать на какую сумму лежит каждого товара на складе
 # например для ламп
 
-lamps_cost = store[goods['Лампа']][0]['quantity'] * store[goods['Лампа']][0]['price']
+'''lamps_cost = store[goods['Лампа']][0]['quantity'] * store[goods['Лампа']][0]['price']
 # или проще (/сложнее ?)
 lamp_code = goods['Лампа']
 lamps_item = store[lamp_code][0]
 lamps_quantity = lamps_item['quantity']
 lamps_price = lamps_item['price']
 lamps_cost = lamps_quantity * lamps_price
-print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, 'руб')
+print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, 'руб')'''
 
 # Вывести стоимость каждого вида товара на складе:
 # один раз распечать сколько всего столов и их общая стоимость,
@@ -46,4 +46,11 @@ print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, '�
 #   и т.д. на складе
 # Формат строки <товар> - <кол-во> шт, стоимость <общая стоимость> руб
 
-# TODO здесь ваш код
+
+for key in goods:
+    good_cost = 0
+    quantity_in_storage = 0
+    for number_in_storage in range(len(store[goods[key]])):
+        good_cost += store[goods[key]][number_in_storage]['quantity'] * store[goods[key]][number_in_storage]['price']
+        quantity_in_storage += store[goods[key]][number_in_storage]['quantity']
+    print(f"{key} - {quantity_in_storage} шт, стоимость {good_cost} руб")
