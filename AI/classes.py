@@ -63,43 +63,41 @@ simons_cat.set_age(25)
 print(simons_cat.__cat, simons_cat.__age)'''
 
 
-# Егорова Лопин
-'''class Human: # Объявление класса
-    def __init__(self, name): # описание метода класса
-        self.__name = name
 
-    @property
+class Human: # Объявление класса
+    def __init__(self, name): # описание метода класса, __innit__ встроенный конструктор ( self, name- можем принять name(аргумент))
+        self.__name = name # создаем инкапсулированную переменную(заприваченную), которой присваеваем значение из полученного аргумента
+
+    @property # штука, говорящая, что name - НЕ просто переменная, которая что-то содержит!
+    #property - свойство HUMAN, записанное в переменной name
     def name(self):
-        return self.__name = name
+        return self.__name = name          # свойство записанное в переменной name
 
 
-    @name.setter
-    def name(self, name):
-        self.__name = name
-
-
-
+    @name.setter # Для возможности изменения свойства name, чтобы можно было менять инкапсулированную переменную только когда мы напишем Human.name =.......)
+    def name(self, name):# можно для любой сущности которая содержит этот класс
+        self.__name = name  # что бы ничего не менялось до того пока не скажем
 
 
 
-
-
-class Student(Human):
-    def __init__(self, family_name):
-        super().__init__(family_name)
+class Student(Human):# подкласс для Human
+    def __init__(self, family_name): # обращается именно к конструктору
+        super().__init__(family_name) # super - к какому супер классу, название функции/ метода
+        # название аргумента не влияет на содержание, то что было в family_name перейдет в name
         self.__grade = 0
 
     @property
-    def grade(self):
+    def grade(self):#свойство у студента - grade, у Human такого нет
         return self.__grade
-    @grade.setter
+    @grade.setter # что бы можно было изменять grade, но сам он накручивать не сможет, пока мы не запишем Student.grade = grade + 1
     def grade(self, grade):
         self.__grade = grade
 
 
 
     def study(self, univer):
-        print(f"{self.name}is in {univer}")'''
+        print(f"{self.name}is in {univer}") # name наследует от Human и можем обращаться
+        # из Human не можем залезать в класс Student, а наоборот можем
 
 
 
