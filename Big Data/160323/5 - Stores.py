@@ -46,4 +46,11 @@ print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, '�
 #   и т.д. на складе
 # Формат строки <товар> - <кол-во> шт, стоимость <общая стоимость> руб
 
-# TODO здесь ваш код
+for key in goods:
+    good_cost = 0
+    quantity_in_storage = 0
+    for number_in_storage in range(len(store[goods[key]])):
+        good_cost += store[goods[key]][number_in_storage]['quantity'] * store[goods[key]][number_in_storage]['price']
+        quantity_in_storage += store[goods[key]][number_in_storage]['quantity']
+    print(f"{key} - {quantity_in_storage} шт, стоимость {good_cost} руб")
+
