@@ -73,3 +73,12 @@ if ch == 10:
 else:
     print('ИИ победил')
     print('Конец игры')
+
+#   File "C:\Users\Bormotoon\PycharmProjects\10G-2023\AI\AI play.py", line 25, in move
+#     the_move = random.choice(the_glasses[situation])
+#                              ~~~~~~~~~~~^^^^^^^^^^^
+# KeyError: -1
+#
+# Process finished with exit code 1
+
+# Eval: 4
