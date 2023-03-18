@@ -152,3 +152,11 @@ def check_win():
 # print(the_glasses)
 if player_wins == 0 and ai_wins == 0:
     player_start()
+
+#   File "C:\Users\Bormotoon\PycharmProjects\10G-2023\AI\glass_AI.py", line 145, in check_win
+#     the_glasses[chosen_numbers].remove(used_glasses[chosen_numbers])
+# ValueError: list.remove(x): x not in list
+# На столе 1 палочек.
+# Process finished with exit code 1
+
+# Eval: 4
