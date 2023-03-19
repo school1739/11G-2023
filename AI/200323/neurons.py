@@ -76,3 +76,54 @@ class RElement(MathNeuron):
         else:
             output = 0
         return output
+
+
+class NeuralLayer:
+    def __init__(self, neuron_type, num_neurons, x=None):
+        self.neurons = []
+        for i in range(num_neurons):
+            if x is not None:
+                neuron = neuron_type(x)
+            else:
+                neuron = neuron_type()
+            self.neurons.append(neuron)
+
+    def compute_outputs(self, inputs):
+        outputs = []
+        for neuron in self.neurons:
+            outputs.append(neuron.calculate_output(inputs))
+        return outputs
+
+    def set_weights(self, weights):
+        for neuron, weight in zip(self.neurons, weights):
+            neuron.set_weights(weight)
+
+    def set_bias(self, biases):
+        for neuron, bias in zip(self.neurons, biases):
+            neuron.set_bias(bias)
+
+    def get_neurons(self):
+        return self.neurons
+
+
+def create_disconnected_nn(layer_num, first_layer_neurons):
+    network = []
+    current_layer_neurons = first_layer_neurons
+
+    for i in range(layer_num):
+        layer = []
+
+        for j in range(current_layer_neurons):
+            if j == 0:
+                layer.append('S')
+            elif j % 2 == 0:
+                layer.append('A')
+            else:
+                layer.append('R')
+
+        network.append(layer)
+        current_layer_neurons = (current_layer_neurons // 2) + (current_layer_neurons % 2)
+
+    network.append(['S'])
+
+    return network
