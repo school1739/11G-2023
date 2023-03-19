@@ -74,7 +74,7 @@ class RElement(MathNeuron):
         elif sum < 0:
             output = -1
         else:
-            output = 0  # undefined can be represented as 0 or None
+            output = 0
         return output
 
 
@@ -104,16 +104,28 @@ class NeuralLayer:
 
     def get_neurons(self):
         return self.neurons
-# TODO 3: Написать функцию создания несвязной нейронной сети:
-# Функция создаёт нужное количество слоёв нейронов по правилу: количество нейронов в первом слоё задаётся явно,
-# второй слой -- вдвое больше первого, каждый последующий -- вдвое меньше предыдущего (количество нейронов
-# округляем до чётных вверх); слои создаются в нужном количестве, пока в слое не останется один нейрон;
-# типы (S, A, R) в слоях определяются автоматически.
-# Args:
-# Layers number
-# 1st layer neurons number
+
+
+def create_disconnected_nn(layer_num, first_layer_neurons):
+    network = []
+    current_layer_neurons = first_layer_neurons
+
+    for i in range(layer_num):
+        layer = []
+
+        for j in range(current_layer_neurons):
+            if j == 0:
+                layer.append('S')
+            elif j % 2 == 0:
+                layer.append('A')
+            else:
+                layer.append('R')
+
+        network.append(layer)
+        current_layer_neurons = (current_layer_neurons // 2) + (current_layer_neurons % 2)
+
+    network.append(['S'])
+
+    return network
 
 # TODO Note 0: wₙ = x ± 0.25, θₙ = 1
-# TODO Note 1: x - class arg
-
-# Reference: http://bit.ly/3FmnVEo
