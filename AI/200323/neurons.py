@@ -91,8 +91,34 @@ class ElemR(MathNeuron):
         # Args:
         # Layers number
         # 1st layer neurons number
+        class Neironal:
+            def __init__(self, tips_neiron, nomer_neuronov, x = None):
+                self.neirons = []
+                for i in range(nomer_neuronov):
+                    if x is not None:
+                        neiron1 = tips_neiron(x)
+                    else:
+                        neiron1 = tips_neiron()
+                    self.neurons.append(neiron1)
 
-#  Note 0: wₙ = x ± 0.25, θₙ = 1
+            def compoutputs(self, inputs):
+                outputs = []
+                for neiron1 in self.neurons:
+                    outputs.append(neiron1.calcoutput(inputs))
+                return outputs
+
+            def setw(self, weights):
+                for neuron, weight in zip(self.neirons, weights):
+                    neuron.setw(weight)
+
+            def setb(self, biases):
+                for neiron1, bias in zip(self.neurons, biases):
+                    neiron1.setb(bias)
+
+            def getter_neirons(self):
+                return self.neirons
+
+    #  Note 0: wₙ = x ± 0.25, θₙ = 1
 #  Note 1: x - class arg
 
 # Reference: http://bit.ly/3FmnVEo
