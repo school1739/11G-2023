@@ -91,32 +91,57 @@ class ElemR(MathNeuron):
         # Args:
         # Layers number
         # 1st layer neurons number
-        class Neironal:
-            def __init__(self, tips_neiron, nomer_neuronov, x = None):
-                self.neirons = []
-                for i in range(nomer_neuronov):
-                    if x is not None:
-                        neiron1 = tips_neiron(x)
-                    else:
-                        neiron1 = tips_neiron()
-                    self.neurons.append(neiron1)
+class Neironal:
+    def __init__(self, tips_neiron, nomer_neuronov, x = None):
+        self.neirons = []
+        for i in range(nomer_neuronov):
+            if x is not None:
+                neiron1 = tips_neiron(x)
+            else:
+                neiron1 = tips_neiron()
+            self.neurons.append(neiron1)
 
-            def compoutputs(self, inputs):
-                outputs = []
-                for neiron1 in self.neurons:
-                    outputs.append(neiron1.calcoutput(inputs))
-                return outputs
+    def compoutputs(self, inputs):
+        outputs = []
+        for neiron1 in self.neurons:
+            outputs.append(neiron1.calcoutput(inputs))
+        return outputs
 
-            def setw(self, weights):
-                for neuron, weight in zip(self.neirons, weights):
-                    neuron.setw(weight)
+    def setw(self, weights):
+        for neuron, weight in zip(self.neirons, weights):
+            neuron.setw(weight)
 
-            def setb(self, biases):
-                for neiron1, bias in zip(self.neurons, biases):
-                    neiron1.setb(bias)
+    def setb(self, biases):
+        for neiron1, bias in zip(self.neurons, biases):
+            neiron1.setb(bias)
 
-            def getter_neirons(self):
-                return self.neirons
+    def getter_neirons(self):
+        return self.neirons
+
+
+
+def necconnectir_neiron(nomer_l, neirons_l1):
+    innwor = []
+    neirons_curr = neirons_l1
+
+    for i in range(nomer_l):
+        __layerNN = []
+
+        for j in range(neirons_curr):
+            if j == 0:
+                __layerNN.append('S')
+            elif j % 2 == 0:
+                __layerNN.append('A')
+            else:
+                __layerNN.append('R')
+
+        innwor.append(__layerNN)
+        current_layer_neurons = (neirons_curr // 2) + (neirons_curr % 2)
+
+    innwor.append(['S'])
+
+    return innwor
+
 
     #  Note 0: wₙ = x ± 0.25, θₙ = 1
 #  Note 1: x - class arg
