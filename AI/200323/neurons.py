@@ -128,4 +128,3 @@ def create_disconnected_nn(layer_num, first_layer_neurons):
 
     return network
 
-# TODO Note 0: wₙ = x ± 0.25, θₙ = 1
