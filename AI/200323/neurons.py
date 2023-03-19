@@ -56,3 +56,20 @@ class SElement(MathNeuron):
             else:
                 output = 0
             return output
+
+class RElement(MathNeuron):
+    def __init__(self, num_inputs):
+        super().__init__(num_inputs)
+
+    def calculate_output(self, inputs):
+        sum = 0
+        for i in range(len(inputs)):
+            sum += inputs[i] * self.weights[i]
+        sum += self.bias
+        if sum > 0:
+            output = 1
+        elif sum < 0:
+            output = -1
+        else:
+            output = 0
+        return output
