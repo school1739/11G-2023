@@ -77,11 +77,32 @@ class RElement(MathNeuron):
         else:
             output = 0  # undefined can be represented as 0 or None
         return output
-# TODO 2: Написать универсальный класс для нейронного слоя:
-        # Args:
-        # Neuron type
-        # Neuron number
-        # x
+class NeuralLayer:
+    def __init__(self, neuron_type, num_neurons, x=None):
+        self.neurons = []
+        for i in range(num_neurons):
+            if x is not None:
+                neuron = neuron_type(x)
+            else:
+                neuron = neuron_type()
+            self.neurons.append(neuron)
+
+    def compute_outputs(self, inputs):
+        outputs = []
+        for neuron in self.neurons:
+            outputs.append(neuron.calculate_output(inputs))
+        return outputs
+
+    def set_weights(self, weights):
+        for neuron, weight in zip(self.neurons, weights):
+            neuron.set_weights(weight)
+
+    def set_bias(self, biases):
+        for neuron, bias in zip(self.neurons, biases):
+            neuron.set_bias(bias)
+
+    def get_neurons(self):
+        return self.neurons
 # TODO 3: Написать функцию создания несвязной нейронной сети:
         # Функция создаёт нужное количество слоёв нейронов по правилу: количество нейронов в первом слоё задаётся явно,
             # второй слой -- вдвое больше первого, каждый последующий -- вдвое меньше предыдущего (количество нейронов
