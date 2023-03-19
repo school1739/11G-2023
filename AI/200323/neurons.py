@@ -110,7 +110,27 @@ class NeuralLayer:
 # x
 
 
-# TODO 3: Написать функцию создания несвязной нейронной сети:
+def create_disconnected_nn(layer_num, first_layer_neurons):
+    network = []
+    current_layer_neurons = first_layer_neurons
+
+    for i in range(layer_num):
+        layer = []
+
+        for j in range(current_layer_neurons):
+            if j == 0:
+                layer.append('S')
+            elif j % 2 == 0:
+                layer.append('A')
+            else:
+                layer.append('R')
+
+        network.append(layer)
+        current_layer_neurons = (current_layer_neurons // 2) + (current_layer_neurons % 2)
+
+    network.append(['S'])
+
+    return network
 # Функция создаёт нужное количество слоёв нейронов по правилу: количество нейронов в первом слоё задаётся явно,
 # второй слой -- вдвое больше первого, каждый последующий -- вдвое меньше предыдущего (количество нейронов
 # округляем до чётных вверх); слои создаются в нужном количестве, пока в слое не останется один нейрон;
