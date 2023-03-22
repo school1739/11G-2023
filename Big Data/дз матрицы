@@ -1,0 +1,47 @@
+@@ -1,15 +1,31 @@
+from random import *
+shape = int(input())
+matrix = [[2, 4, 1, 1], [0, 2, 0, 0], [2, 1, 1, 3], [4, 0, 2, 3]]
+def Minor(matrix, i, j):
+    A = matrix.copy()
+    del A[i]
+    for n in range(shape - 1):
+        del A[n][j]
+    return A
+
+def Det(matrix):
+    summ = 0
+    for j in range(4):
+        A = Minor(matrix, 0, j)
+        summ += A[0][0]*A[1][1]*A[2][2]+A[0][1]*A[1][2]*A[2][0]
+shape = int(input('Введите размер матрицы: '))
+matrix = []
+for i in range(shape):
+    matrix.append([])
+    for j in range(shape):
+        matrix[i].append(int(input(f'Введите число, место ({i+1}, {j+1}): ')))
+
+
+def minor(matrix, i, j):
+    minor_matrix = [buff.copy() for buff in matrix]
+    del minor_matrix[i-1]
+
+    for i in range(len(minor_matrix)):
+        del minor_matrix[i][j-1]
+    return minor_matrix
+
+
+def calculate_det(matrix):
+    if len(matrix) == 1:
+        return matrix[0][0]
+    elif len(matrix) == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    else:
+        print(matrix)
+        det = 0
+        for j in range(len(matrix)):
+            det += ((-1)**j)*matrix[0][j]*calculate_det(minor(matrix, 1, j+1))
+    return det
+
+
+print(calculate_det(matrix))
