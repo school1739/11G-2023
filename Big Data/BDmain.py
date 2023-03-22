@@ -1,8 +1,3 @@
-# TODO 2: if shape 1 or 2 --> Hardcode calculation
-# TODO 3: def minor(a)
-# TODO 4: def calculate_det(matrix) using minor(a)
-# TODO 5: calculate_det(matrix)
-
 a11 = int(input())
 a12 = int(input())
 a13 = int(input())
@@ -41,16 +36,21 @@ def minor(a, del_el):
     for repeat in range(len(minor) - 1):  # Считаем количество повторов для минора
         for stroke in minor:
             calc_el *= stroke[el]  # Перемножаем каждый элемент строки смещаясь на один вправо
-            print(stroke[el])
             el += 1
         v.append(calc_el)
         calc_el = 1
         for stroke in minor:  # Перемножаем каждый элемент строки смещаясь на один влево
             el -= 1
-            print(stroke[el])
             calc_el *= stroke[el]
         calc_min = v[0] - calc_el
         return calc_min
 
 
-print(minor(the_matrix, 0))
+def calc_det(matrix):
+    det = minor(matrix, 0) * (-1) ** (1 + zer_ind + 1) * matrix[zer_ind][0] + \
+          (-1) ** (2 + zer_ind + 1) * matrix[zer_ind][1] * minor(matrix, 1) + \
+          (-1) ** (3 + zer_ind + 1) * matrix[zer_ind][2] * minor(matrix, 2)
+    return det
+
+
+print(calc_det(the_matrix))
