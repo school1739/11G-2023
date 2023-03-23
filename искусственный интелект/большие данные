@@ -1,0 +1,26 @@
+#блок импорта
+import pandas as pd
+import numpy as np
+
+# Shift + Enter - выполнить блок и создать новый
+# CTRL + Enter - выполнить блок
+series_1 = pd.Series([1, 2, 3, 4, 5])
+print(series_1)
+series_1 = pd.Series(['a, b, c', b, c, d'])
+print(series_1)
+# явное создание индекса
+series_2 = pd.Series(['a', 'b', 'c', 'd', 'e'])# соержание серии
+                      index = ['I', 'II', 'III', 'IV', 'V'] # назначение индекса
+print(series_2)
+#обращение по индексу
+print(series_2[1])#>b
+print(series_2['IV'])#>d
+print(series_2[['III', 'V']])#вывод элементов серии по списку индексов
+
+print(series_2[[1, 4]])
+# ввод индекса
+print(series_1.index, series_2.index)
+
+series_3 = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                      index = dates)
+print(series_3)
