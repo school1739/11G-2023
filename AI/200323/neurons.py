@@ -70,3 +70,27 @@ class RNeuron(MathNeuron):
         else:
             print("Нейрон R не активирован")
             return -1
+class Layer:
+    def __init__(self, type, number, x):
+        self.type = type
+        self.number = number
+        self.x = x
+        self.neurons = []
+        self.create_neurons()
+
+    def create_neurons(self):
+        if self.type == "S":
+            for i in range(self.number):
+                self.neurons.append(SNeuron())
+            return self.neurons
+        elif self.type == "A":
+            for i in range(self.number):
+                self.neurons.append(ANeuron(self.x, 1, 1))
+            return self.neurons
+        elif self.type == "R":
+            for i in range(self.number):
+                self.neurons.append(RNeuron(self.x, 1, 1))
+            return self.neurons
+        else:
+            print("Неверный тип нейрона")
+            return None
