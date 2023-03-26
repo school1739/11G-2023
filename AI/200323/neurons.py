@@ -94,3 +94,17 @@ class Layer:
         else:
             print("Неверный тип нейрона")
             return None
+def Neuron_network_without_layers_number(neurons_number):
+    # network = []
+    # network.append(Layer('S',neurons_number,1))
+    Layer('S', neurons_number, 1)
+    past_neurons_number = neurons_number
+    neurons_number = neurons_number * 2
+    while neurons_number != 1:
+        Layer('A', neurons_number, past_neurons_number)
+        past_neurons_number = neurons_number
+        neurons_number = neurons_number//2
+        if neurons_number % 2 != 0 and neurons_number != 1:
+            neurons_number = neurons_number + 1
+    Layer('R', 1, 2)
+
