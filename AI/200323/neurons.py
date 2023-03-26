@@ -151,3 +151,6 @@ def necconnectir_neiron(nomer_l, neirons_l1):
 
 
 
+
+
+
