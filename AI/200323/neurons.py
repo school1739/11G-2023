@@ -1,121 +1,131 @@
+import random
+
+
 class MathNeuron:
-    def __init__(self, numInputs):
-        self.weight = []
-      
-        for counter in range(numInputs):
-            self.weight.append(1)
-        self.bias = 0
+    def __init__(self, x_count, w, theta):
+        self.x_count = x_count
+        self.w = w + 0  # random.randrange(-0.25, 0.25)
+        self.theta = theta
+        self.sum = 0
+        print(f"Создан нейрон с количеством входов {self.x_count}, весом {self.w} и порогом {self.theta}")
 
-    def calculateOutput(self, inputs):
-        sum = 0
-        for counter in range(len(inputs)):
-            sum += inputs[counter] * self.weight[counter]
-        sum += self.bias
-        output = 1 / (1 + pow(2.71828, -sum))
-        return output
+    def get_info(self):
+        print(f"Нейрон с количеством входов {self.x_count}, весом {self.w} и порогом {self.theta}")
 
-    def setWeight(self, weight):
-        self.weight = weight
-
-    def setBias(self, bias):
-        self.bias = bias
-
-    def getWeight(self):
-        return self.weight
-
-    def getBias(self):
-        return self.bias
-
-class SElement(MathNeuron):
-    def __init__(self, numInputs, threshold):
-        super().__init__(numInputs)
-        self.threshold = threshold
-
-    def calculateOutput(self, inputs):
-        sum = 0
-        for i in range(len(inputs)):
-            sum += inputs[i] * self.weight[i]
-        sum += self.bias
-        if sum >= self.threshold:
-            output = 1
+    def activate(self, x):
+        if len(x) != self.x_count:
+            print("Количество входов не соответствует количеству входов нейрона")
         else:
-            output = 0
-        return output
+            self.sum = 0
+            for i in range(self.x_count):
+                self.sum += x[i] * self.w[i]
+            if self.sum > self.theta:
+                print("Нейрон активирован")
+                return True
+            else:
+                print("Нейрон не активирован")
+                return False
 
-class AElement(MathNeuron):
-    def __init__(self, numInputs, threshold):
-        super().__init__(numInputs)
-        self.threshold = threshold
 
-    def calculateOutput(self, inputs):
-        sum = 0
-        for i in range(len(inputs)):
-            sum += inputs[i] * self.weight[i]
-        sum += self.bias
-        if sum >= self.threshold:
-            output = 1
+class SNeuron(MathNeuron):
+    def __init__(self):
+        super().__init__(1, 1, 1)
+        print("Создан нейрон S")
+
+    def activate(self, x):
+        if x > self.theta:
+            print("Нейрон S активирован")
+            return True
         else:
-            output = 0
-        return output
+            print("Нейрон S не активирован")
+            return False
 
-class RElement(MathNeuron):
-    def __init__(self, numInputs):
-        super().__init__(numInputs)
 
-    def calculateOutput(self, inputs):
-        sum = 0
-        for i in range(len(inputs)):
-            sum += inputs[i] * self.weight[i]
-        sum += self.bias
-        if sum > 0:
-            output = 1
-        elif sum < 0:
-            output = -1
+class ANeuron(MathNeuron):
+    def __init__(self, x_count, w, theta):
+        super().__init__(x_count, w, theta)
+        print("Создан нейрон A")
+
+    def activate(self, x):
+        if self.x_count == 0:
+            print("Нет входов")
+            return None
         else:
-            output = 0
-        return output
-      
-class NeuralLayer:
-    def __init__(self, neuronType, numNeurons, x=None):
+            if super().activate(x):
+                return True
+            else:
+                return False
+
+
+class RNeuron(MathNeuron):
+    def __init__(self, x_count, w, theta):
+        super().__init__(x_count, w, theta)
+        print("Создан нейрон R")
+
+    def activate(self):
+        if self.sum > self.theta:
+            print("Нейрон R активирован")
+            return 1
+        elif self.sum == self.theta:
+            print("Нейрон R не определён")
+            return None
+        else:
+            print("Нейрон R не активирован")
+            return -1
+
+
+class Layer:
+    def __init__(self, type, number, x):
+        self.type = type
+        self.number = number
+        self.x = x
         self.neurons = []
-        for i in range(numNeurons):
-            if x is not None:
-                neuron = neuronType(x)
-            else:
-                neuron = neuronType()
-            self.neurons.append(neuron)
+        self.create_neurons()
 
-    def calcOutputs(self, inputs):
-        outputs = []
-        for neuron in self.neurons:
-            outputs.append(neuron.calculateOutput(inputs))
-        return outputs
+    def create_neurons(self):
+        if self.type == "S":
+            for i in range(self.number):
+                self.neurons.append(SNeuron())
+        elif self.type == "A":
+            for i in range(self.number):
+                self.neurons.append(ANeuron(self.x, 1, 1))
+        elif self.type == "R":
+            for i in range(self.number):
+                self.neurons.append(RNeuron(self.x, 1, 1))
+        else:
+            print("Неверный тип нейрона")
+            return None
 
-    def setWeight(self, weight):
-        for neuron, weight in zip(self.neurons, weight):
-            neuron.setWeight(weight)
 
-    def setBias(self, biases):
-        for neuron, bias in zip(self.neurons, biases):
-            neuron.setBias(bias)
+def createNet(beginWith, amountOfLayers):
+    net = []
+    net.append(Layer('S', beginWith, 1))
+    prevAmount = beginWith
+    net.append(Layer('A', beginWith * 2, prevAmount))
+    prevAmount = beginWith * 2
+    net.append(Layer('A', beginWith, prevAmount))
+    tempAmount = beginWith
+    net.append(beginWith)
+    while tempAmount > 2:
+        if tempAmount % 2 == 0:
+            prevAmount = tempAmount
+            tempAmount = tempAmount / 2
+            if tempAmount % 2 != 0:
+                tempAmount = tempAmount + 1
+            net.append(Layer('A', int(tempAmount), int(prevAmount)))
+        else:
+            prevAmount = tempAmount
+            tempAmount = tempAmount // 2 + 1
+            if tempAmount % 2 != 0:
+                tempAmount = tempAmount + 1
+            net.append(Layer('A', int(tempAmount), int(prevAmount)))
 
-    def getNeurons(self):
-        return self.neurons
+    net.append(Layer('R', 1, 2))
 
-def createDisconnected(layerNum, firstLayer):
-    network = []
-    currentLayer = firstLayer
-    for i in range(layerNum):
-        layer = []
-        for j in range(currentLayer):
-            if j == 0:
-                layer.append('S')
-            elif j % 2 == 0:
-                layer.append('A')
-            else:
-                layer.append('R')
+    print(f'СОЗДАНА СЕТЬ НЕЙРОНОВ! ПЕРВЫЙ СЛОЙ РАЗМЕРОМ {beginWith}:')
+    print(net)
 
-        network.append(layer)
-        currentLayer = (currentLayer // 2) + (currentLayer % 2)
-    network.append(['S'])
-    return network
+    return net
+
+
+createNet(12, 2)
