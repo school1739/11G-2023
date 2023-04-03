@@ -4,7 +4,7 @@ import random
 class MathNeuron:
     def __init__(self, x_count, w, theta):
         self.x_count = x_count
-        self.w = w + random.random(-0.25, 0.25)
+        self.w = w + random.uniform(-0.25, 0.25)
         self.theta = theta
         self.sum = 0
         print(f"Создан нейрон с количеством входов {self.x_count}, весом {self.w} и порогом {self.theta}")
@@ -96,3 +96,50 @@ class Layer:
             print("Неверный тип нейрона")
             return None
 
+# global function to create network (1st layer - S, 2nd - A, 3rd - R)
+# where 1st layer has N neuron, 2nd - 2*N,
+# and there so much layers so every subsequent layer has N/2 neurons less than previous
+# the last layer has only 1 R neuron
+def create_network(N):
+    layers = []
+    layers.append(Layer("S", N, 0))
+    layers.append(Layer("A", 2*N, N))
+    while N > 1:
+        N = int(N/2)
+        layers.append(Layer("R", N, 2*N))
+    return layers
+
+layers = create_network(64)
+# print all layers and neurons
+for i in range(len(layers)):
+    print(f"Слой {i}")
+    for j in range(len(layers[i].neurons)):
+        print(f"Нейрон {j}")
+        layers[i].neurons[j].get_info()
+
+# plot a graph of the network with networkx
+import networkx as nx
+import matplotlib.pyplot as plt
+
+G = nx.Graph()
+for i in range(len(layers)):
+    for j in range(len(layers[i].neurons)):
+        G.add_node(f"{i}_{j}")
+for i in range(len(layers)):
+    for j in range(len(layers[i].neurons)):
+        if i != len(layers) - 1:
+            for k in range(len(layers[i+1].neurons)):
+                G.add_edge(f"{i}_{j}", f"{i+1}_{k}")
+plt.figure(figsize=(10, 10), dpi=300, facecolor='w', edgecolor='k')
+nx.draw(G, with_labels=True, node_size=100, alpha=0.5, node_color="blue", font_size=8, font_color="white")
+plt.show()
+
+# plot a table of the network with pandas
+import pandas as pd
+
+data = []
+for i in range(len(layers)):
+    for j in range(len(layers[i].neurons)):
+        data.append([f"{i}_{j}", layers[i].neurons[j].x_count, layers[i].neurons[j].w, layers[i].neurons[j].theta])
+df = pd.DataFrame(data, columns=["Нейрон", "Количество входов", "Вес", "Порог"])
+print(df)
