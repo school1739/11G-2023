@@ -95,3 +95,20 @@ class Layer:
         else:
             print("Неверный тип нейрона")
             return None
+
+def Layer_creater(neurons_number):
+    layers = []
+    past_neurons_number = neurons_number
+    neurons_number = neurons_number * 2
+    while neurons_number != 1:
+        layers.append(Layer('S', neurons_number, past_neurons_number))
+        layers.append(Layer('A', neurons_number, past_neurons_number))
+        layers.append(Layer('R', neurons_number, past_neurons_number))
+        past_neurons_number = neurons_number
+        neurons_number = neurons_number // 2
+        if neurons_number % 2 != 0 and neurons_number != 1:
+            neurons_number = neurons_number + 1
+    layers.append(Layer('R', 1, 2))
+
+
+Layer_creater(10)
