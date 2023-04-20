@@ -36,3 +36,13 @@ for i in range(len(a)-1):
         ans.append(a[i]**2 + a[i+1]**2)
 print(len(ans), max(ans))'''
 
+
+# Поляков 5066
+a = [int(x) for x in open('17-288.txt')]
+ans = []
+for i in range(len(a)-2):
+    if abs(a[i]) % 7 != abs(a[i+1]) % 7 and abs(a[i+1]) % 7 != abs(a[i+2]) % 7 and abs(a[i]) % 7 != abs(a[i+2]) % 7 and (a[i] < 0 or a[i+1] < 0 or a[i+2] < 0):
+        ans.append(max(a[i], a[i+1], a[i+2]) - min(a[i], a[i+1], a[i+2]))
+print(len(ans), min(ans))
+
+
