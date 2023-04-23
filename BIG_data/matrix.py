@@ -14,42 +14,74 @@ def f(matrix, x, y):
 
 print(f(matrix, 0, 0))'''
 
-n = int(input("Введите размер квадратной матрицы: "))
-matrix = [[0] * n for i in range(n)]
-print(matrix)
-shape = int(input("Введите размер матрицы (должно быть числом в квадрате): "))
-if shape == 1:
-    matrix = [[1]]
-    print(matrix)
-elif shape == 2:
-    matrix = [[1, 2], [3, 4]]
-    print(matrix)
-elif shape == 3:
-    matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-    print(matrix)
-elif shape == 4:
-    matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
-    print(matrix)
-else:
-    matrix = [[0] * shape for i in range(shape)]
-    for row in matrix:
-        print(row)
+a11 = int(input())
+a12 = int(input())
+a13 = int(input())
+a14 = int(input())
+a21 = int(input())
+a22 = int(input())
+a23 = int(input())
+a24 = int(input())
+a31 = int(input())
+a32 = int(input())
+a33 = int(input())
+a34 = int(input())
+a41 = int(input())
+a42 = int(input())
+a43 = int(input())
+a44 = int(input())
+the_matrix = [[a11, a12, a13, a14],
+              [a21, a22, a23, a24],
+              [a31, a32, a33, a34],
+              [a41, a42, a43, a44]]
+
+nul_c = 0
+
+def minor(a, elemn_d):
+    if len(a) == 1:
+        return a[0][0]
+    else:
+        from copy import deepcopy
+        minor = deepcopy(a)
+        global nul_c
+
+        for col_vo_nol in minor:
+            if col_vo_nol.count(0) > minor[nul_c].count(0):
+                nul_c = minor.index(col_vo_nol)
+            else:
+                continue
 
 
-def minor(a):
-    return [[a[i][j] for j in range(len(a[0]))] for i in range(len(a))]
+        del minor[nul_c]
+
+        for str in minor:
+            del str[elemn_d]
+        main_sum = []
+        two_sum = []
+        schet_el = 1
+        el = 0
+
+        for repeat in range(len(minor) - 1):
+            for str in minor:
+                schet_el *= str[el]
+                el += 1
+            main_sum.append(schet_el)
+            schet_el = 1
+            for str in minor:
+                el -= 1
+                schet_el *= str[el]
+            two_sum.append(schet_el)
+            calc_min = sum(main_sum) - sum(two_sum)
+            return calc_min
 
 
-def calculate_det(matrix):
+def calc_det(matrix):
     det = 0
     for i in range(len(matrix)):
-        for j in range(len(matrix[0])):
-            det += matrix[i][j] * minor(matrix)[i][j]
+        det += minor(matrix, i) * (-1) ** (i + 1 + nul_c + 1) * matrix[nul_c][i]
     return det
 
 
-print(calculate_det(matrix))
-
-
+print(calc_det(the_matrix))
 
 
