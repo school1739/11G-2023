@@ -1,7 +1,6 @@
-#сделали Егорова Женя и Мери Калантарян
-import random  #берем библеотеку (рандом) она будет генерировать случайные числа для наших стаканчиков
+import random
 
-# Далее берем и создаем сам словарь,который содержит стаканы
+
 stakanchiki = {1: [1, 1, 1, 2, 2, 2],
                2: [1, 1, 1, 2, 2, 2],
                3: [1, 1, 1, 2, 2, 2],
@@ -13,81 +12,97 @@ stakanchiki = {1: [1, 1, 1, 2, 2, 2],
                9: [1, 1, 1, 2, 2, 2],
                10: [1, 1, 1, 2, 2, 2],
                11: [1, 1, 1, 2, 2, 2]}
+Ick_int_points = 0
+pols_points = 0
+count_rounds = 1
 
-ispolzovat_stakanchiki = {}  # выводим словарь стаканов
-situation = 11  # указание на изначальную позицую в игре
-iskINT_is_winner = False  # флаг победы для искуственного интелекта, в новой игре ходит первый тот, кто проиграл в прошлой
-def push(situation):  # функция для выполнения хода и выбора рандомной бумажки из стаканчиков
-    print("Ходит Искуственный интеллект:")
+def move(situation):
     if situation == 1:
-        the_push = 1
+        the_move = 1
     else:
-        the_push = random.choice(stakanchiki[situation])
-    print(f"Иск.инт взял {the_push} палочек.")
-    ispolzovat_stakanchiki.update({situation: the_push})
-    return the_push
+        the_move = random.choice(stakanchiki[situation])
 
-def stakanchiki_refill():
-  pass
-score_counter_chel = 0
-score_counter_ii = 0
-igrok_proigral= False
-while (score_counter_chel < 10 and score_counter_ii< 10):
-  situation = 11
-  choice = 0
-  iskINT_is_winner = False
-  print(f'На столе лежат {situation} палочек')
-  while situation > 0:
-      if iskINT_is_winner == False:
-          if situation == 0:
-              print("Искуственный интелект выиграл, пользователь проиграл")
-              score_counter_ii +=1
-              print(f'Счет Человек   {score_counter_chel} : ИИ   {score_counter_ii}')
-              iskINT_is_winner = True
-          elif situation == 1:
-              situation -= 1
-              print('Ходит пользователь')
-              print('На столе осталась 1 палочка, вам ничего не остается кроме того, как взять только 1')
-              print(f'На столе лежит {situation} палочек')
-              print("Пользователь проиграл, Искуственный интеллект выиграл")
-              iskINT_is_winner = True
-              score_counter_ii += 1
-              print(f'Счет человек  {score_counter_chel} : ИИ   {score_counter_ii}')
-              break
+    print('Ходит ИИ:')
+    if the_move == 1:
+        print(f'ИИ взял 1 палочку')
+    else:
+        print(f'ИИ взял {the_move} палочек')
+    used_glasses.update({situation: the_move})
+    return the_move
 
-          choice = int(input('Сколько палочек берем? 1 или все таки 2?'))
-          while choice != 1 and choice != 2:
-              choice = int(input("нужно взять либо 1 либо 2 палочки "))  # Игроку дается выбор сколько же ему взять палочек
-          situation = situation - choice  # Ситуация на столе обновляется, после хода
-          print(f'На столе лежат {situation} палочек')
-          if situation == 0:
-              print('Искуственный интеллект проиграл, пользователь выиграл')
-              score_counter_ii += 1# psjdf;qdjngqdknkfqk;knfd;lkkmng;wkmfe;kdjsnfg;skjfng;kwj  fdbk; safkbn sdf;bkejfnvbpkjhb ;vaf b;ipwtnipw
-              print(f'Счет Человек  {score_counter_chel} : ИИ  {score_counter_ii}')
-          else:
-              situation = situation - push(situation)  # Ход Искуственного интеллекта, и снова обновляем ситуацию на столе, после хода
-              print(f'На столе лежит {situation} палочек')
 
-              if situation == 0:
-                  print('Искуственный интеллект проиграл, пользователь выиграл')
-                  score_counter_chel +=1
-                  print(f'Счет Человек  {score_counter_chel} : ИИ  {score_counter_ii}')
+def used_glass_fill():
+    if Ick_int_winner:
+        for i in used_glasses:
+            stakanchiki[i].append(used_glasses[i])
+    else:
+        for i in used_glasses:
+            if used_glasses[i] in stakanchiki[i]:
+                stakanchiki[i].remove(used_glasses[i])
 
-  if (igrok_proigral == True):
-    score_counter_ii += 1
-    print('Искуственный интеллект тебя сделал')
-  else:
-     # он оатпждфшатвпжфыопатлфуоптхц
-    print('Человек выиграл')
 
-  print('Палочек на столе больше нет')
-  print(f'Счёт:\nЧеловек:{score_counter_chel}      Искуственный интеллект: {score_counter_ii}')
-  print('\n\n')
+while Ick_int_points != 10 and pols_points != 10:
+    Ick_int_winner = False
+    situation = 11
+    used_glasses = {}
+    print('---------------------------')
+    print(f'Счёт: Пользователь {pols_points}:{Ick_int_points} ИИ')
+    print(f'{count_rounds}-й раунд!')
+    print(f'На столе {situation} палочек')
+    print('---------------------------')
+    while situation > 0:
+        if Ick_int_winner == False:
+            if situation == 0:
+                print("Пользователь проиграл, ИИ выиграл")
+                Ick_int_winner = True
+            elif situation == 1:
+                situation -= 1
+                print('Ходит пользователь')
+                print('Пользователю ничего не остаётся, кроме как взять 1 палочку')
+                print(f'На столе {situation} палочек')
+                print("Пользователь проиграл, ИИ выиграл")
+                Ick_int_winner = True
+                break
 
-print('Игра закончилась')
-if (score_counter_chel == 10):
-  print('Ты выиграл комп!')
-elif (score_counter_ii == 10):
-  print('Тебя выиграл комп, попоробуй еще раз')
+            choice = int(input('Сколько палочек взять? 1 или 2? '))
+            while choice != 1 and choice != 2:
+                choice = int(input("Сказано же, одну или две! "))
+            situation = situation - choice
+            print(f'На столе {situation} палочек')
+            if situation == 0:
+                print('ИИ проиграл, пользователь выиграл')
+            else:
+                situation = situation - move(situation)
+                print(f'На столе {situation} палочек')
+
+                if situation == 0:
+                    print('ИИ проиграл, пользователь выиграл')
+    count_rounds += 1
+
+    if Ick_int_winner:
+        Ick_int_points += 1
+    else:
+        pols_points += 1
+
+    used_glass_fill()
+
+print()
+print('---------------------------')
+print(f'Окончательный счёт: Пользователь {pols_points}:{Ick_int_points} ИИ')
+if Ick_int_points > pols_points:
+    print('Победа ИИ')
 else:
-  print(f'ты набрал чуть больше 10 очков, игра закончилась, но ты можешь начать снова\np:{score_counter_chel}\nb:{score_counter_ii}')
+    print('Победил пользователь')
+print('---------------------------')
+print()
+print('Вывод содержимого стаканов')
+for number, content in stakanchiki.items():
+    print(f'{number}-й стакан: {content}')
+print('---------------------------')
+print()
+print('Вывод шанса выпадения 1 или 2 для каждого стакана')
+for number, content in stakanchiki.items():
+    try:
+        print(f'{number}-й стакан:\nШанс выпадения 1 - {round((content.count(1)/len(content))*100, 1)}%\nШанс выпадения 2 - {round((content.count(2)/len(content))*100, 1)}%')
+    except:
+        print(f'{number}-й стакан:\nШанс выпадения 1 - 0.0%\nШанс выпадения 2 - 0.0%')
