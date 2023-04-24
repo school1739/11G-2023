@@ -97,8 +97,3 @@ class Layer:
             return None
 
 
-def create_layers(number):
-    layers = []
-    for i in range(number):
-        layers.append(Layer(random.choice(["S", "A", "R"]), random.choice([1, 2, 3]), random.choice([1, 2, 3])))
-    return layers
