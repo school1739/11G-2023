@@ -7,7 +7,13 @@ class MathNeuron:
         self.w = w + round(random.triangular(-0.25, 0.25), 2)
         self.theta = theta
         self.sum = 0
-        print(f"Создан нейрон с количеством входов {self.x_count}, весом {self.w} и порогом {self.theta}")
+        for i in range(x_count):
+            self.w.append(w + random.uniform(-0.25, 0.25))
+        # print all inputs and their weights like "Input 1 = 0.25"
+        for i in range(x_count):
+
+            print(f"Вход {i}: {self.w[i]}")
+
 
     def get_info(self):
         print(f"Нейрон с количеством входов {self.x_count}, весом {self.w} и порогом {self.theta}")
@@ -18,7 +24,10 @@ class MathNeuron:
         else:
             self.sum = 0
             for i in range(self.x_count):
+                self.w[i] = random.uniform(-0.25, 0.25)
                 self.sum += x[i] * self.w[i]
+                # print all inputs and their weights
+                print(f"Вход {i}: {x[i]} * {self.w[i]} = {x[i] * self.w[i]}")
             if self.sum > self.theta:
                 print("Нейрон активирован")
                 return True
@@ -99,18 +108,54 @@ class Layer:
             print("Неверный тип нейрона")
             return None
 
-def Neuron_network_without_layers_number(neurons_number):
-    # network = []
-    # network.append(Layer('S',neurons_number,1))
-    Layer('S', neurons_number, 1)
-    past_neurons_number = neurons_number
-    neurons_number = neurons_number * 2
-    while neurons_number != 1:
-        Layer('A', neurons_number, past_neurons_number)
-        past_neurons_number = neurons_number
-        neurons_number = neurons_number//2
-        if neurons_number % 2 != 0 and neurons_number != 1:
-            neurons_number = neurons_number + 1
-    Layer('R', 1, 2)
+def create_network(N):
+    layers = []
+    layers.append(Layer("S", N, 0))
+    layers.append(Layer("A", 2*N, N))
+    while N > 1:
+        N = int(N/2)
+        layers.append(Layer("R", N, 2*N))
+    return layers
 
+the_file = open("./AI_log.log", "a", encoding="UTF-8")
+layers = create_network(64)
+the_file.close()
 
+import pandas as pd
+
+df = pd.DataFrame(columns=['Neouron', 'Weight', 'Type']) # создан датафрейм
+for i in range(len(layers)): # итерируемся по слоям
+    for j in range(len(layers[i].neurons)): #итерируемся по нейронам
+        for k in range(len(layers[i].neurons[j].w)): #итерируемся по весам
+            df = df.append({'Neuron': f'{i}_{j}', 'Weight':layers[i].neurons[j].w[k], "Type":layers[i].type}, ignore_index=True)
+print(df)
+
+import networkx as nx
+import matplotlib.pyplot as plt
+
+G = nx.Graph() # создаем новый граф
+for i in range(len(layers)): # итерируемся по слоям
+    for j in range(len(layers[i].neurons)): #итерируемся по нейронам в слоях
+        G.add_node(f"{i}_{j}") #рисуем кружочек (нод) для каждого нейрона
+for i in range(len(layers)): # итерируемся по слоям снова
+    for j in range(len(layers[i].neurons)): #итерируемся по нейронам в первом слое
+        if i != len(layers) - 1:
+            for k in range(len(layers[i+1].neurons)): #итерируемся по нейронам в след слое
+                G.add_edge(f"{i}_{j}", f"{i+1}_{k}") #рисуем ребро (грань) между нейронами 1 и 2 слоев
+# определяем размер изображения, цвета граней и задника
+plt.figure(figsize=(10, 10), dpi=300, facecolor='w', edgecolor='k')
+
+# определяем цвета нодов нейронов в зависимости от типа
+colors = []
+for i in range(len(layers)):
+    for j in range(len(layers[i].neurons)):
+        if layers[i].type == "S":
+            colors.append("green")
+        elif layers[i].type == "A":
+            colors.append("blue")
+        elif layers[i].type == "R":
+            colors.append("red")
+
+# определяем внешний вид нодов
+nx.draw(G, with_labels=True, node_size=100, alpha=0.5, node_color=colors, font_size=8, font_color="white")
+plt.show()# показываем граф
