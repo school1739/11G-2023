@@ -38,11 +38,34 @@ print(len(ans), max(ans))'''
 
 
 # Поляков 5066
-a = [int(x) for x in open('17-288.txt')]
+'''a = [int(x) for x in open('17-288.txt')]
 ans = []
 for i in range(len(a)-2):
     if abs(a[i]) % 7 != abs(a[i+1]) % 7 and abs(a[i+1]) % 7 != abs(a[i+2]) % 7 and abs(a[i]) % 7 != abs(a[i+2]) % 7 and (a[i] < 0 or a[i+1] < 0 or a[i+2] < 0):
         ans.append(max(a[i], a[i+1], a[i+2]) - min(a[i], a[i+1], a[i+2]))
-print(len(ans), min(ans))
+print(len(ans), min(ans))'''
+
+#задание 16 поляков 224
+'''def f(n):
+    if n == 1: return 1
+    if n > 1 and n % 2 == 0: return n*n + f(n-1)
+    if n > 1 and n % 2 != 0: return f(n-1)+ 2 * f(n-2)
 
 
+print(f(23)'''
+'''from sys import *
+setrecursionlimit(10000)
+
+
+def f(n):
+    if n == 1: return 1
+    if n > 1: return n * f(n-1)
+
+print(f(2023)/f(2020))'''
+# 2021 * 2022 * 2023
+
+def f(n):
+    if n >= 2025: return n
+    if n < 2025: return n + f(n+2)
+
+print(f(2022)-f(2023))
