@@ -64,8 +64,45 @@ def f(n):
 print(f(2023)/f(2020))'''
 # 2021 * 2022 * 2023
 
-def f(n):
+'''def f(n):
     if n >= 2025: return n
     if n < 2025: return n + f(n+2)
 
-print(f(2022)-f(2023))
+print(f(2022)-f(2023))'''
+
+# поляков 2265
+'''def f(n):
+    if n <= 3: return n
+    if 3 < n <= 32: return n // 4 + f(n - 3)
+    if n > 32: return 2 * f(n - 5)def f(n - 5)
+
+
+print(f(100))'''
+# Поляков 2278
+'''k=0
+def f(n):
+    if n > 25: return 2*n*n*n + 1
+    if n <= 25: return f(n+2) + 2*f(n+3)
+
+
+for n in range(1, 1001):
+    if f(n)%11==0:
+        k+=1
+
+print(k)'''
+
+
+def f(n):
+    if n <= 1: return 1
+    if n > 1 and n % 2 == 0: return  3 + f(n / 2 - 1)
+    if n > 1 and n % 2 != 0: return n + f(n + 2)
+n = 2
+while n < 1000:
+    try:
+        r = f(n)
+        if r == 19:
+            print(n)
+            break
+    except:
+        pass
+    n += 1
