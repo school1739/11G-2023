@@ -92,7 +92,7 @@ for n in range(1, 1001):
 print(k)'''
 
 
-def f(n):
+'''def f(n):
     if n <= 1: return 1
     if n > 1 and n % 2 == 0: return  3 + f(n / 2 - 1)
     if n > 1 and n % 2 != 0: return n + f(n + 2)
@@ -105,4 +105,5 @@ while n < 1000:
             break
     except:
         pass
-    n += 1
+    n += 1'''
+
