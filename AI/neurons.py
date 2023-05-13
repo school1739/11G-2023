@@ -138,7 +138,7 @@ for i in range(len(layers)): # итерируемся по слоям
     for j in range(len(layers[i].neurons)):  # итерируемся по нейронам
         for k in range(len(layers[i].neurons[j].w)):  # итерируемся по весам
             # добавление новой строки в датафрейм с номером нейрона, весами и типом нейрон
-            df = df.append({"Neuron": f"{i}_{j}", "Weight": layers[i].neurons[j].w[k], "Type": layers[i].type}, ignore_index=True)
+            df = df._append({"Neuron": f"{i}_{j}", "Weight": layers[i].neurons[j].w[k], "Type": layers[i].type}, ignore_index=True)
 
 print(df)
 
