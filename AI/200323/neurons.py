@@ -4,27 +4,34 @@ import random
 class MathNeuron:
     def __init__(self, x_count, w, theta):
         self.x_count = x_count
-        self.w = w + 0  # random.randrange(-0.25, 0.25)
+        self.w = []
         self.theta = theta
         self.sum = 0
-        print(f"Создан нейрон с количеством входов {self.x_count}, весом {self.w} и порогом {self.theta}")
+        for i in range(x_count):
+            self.w.append(w+random.uniform(-0.25, 0.25))
+        for i in range(x_count):
+            print(f"Вход {i}: {self.w[i]}")
 
     def get_info(self):
         print(f"Нейрон с количеством входов {self.x_count}, весом {self.w} и порогом {self.theta}")
 
-    def activate(self, x):
-        if len(x) != self.x_count:
-            print("Количество входов не соответствует количеству входов нейрона")
+import random
+
+def activate(self, x):
+    if len(x) != self.x_count:
+        print("Количество входов не соответствует количеству входов нейрона")
+    else:
+        self.sum = 0
+        for i in range(self.x_count):
+            self.w[i] = random.uniform(-0.25, 0.25)
+            self.sum += x[i] * self.w[i]
+            print(f"Вход {i}: {x[i]} * {self.w[i]} = {x[i] * self.w[i]}")
+        if self.sum > self.theta:
+            print("Нейрон активирован")
+            return True
         else:
-            self.sum = 0
-            for i in range(self.x_count):
-                self.sum += x[i] * self.w[i]
-            if self.sum > self.theta:
-                print("Нейрон активирован")
-                return True
-            else:
-                print("Нейрон не активирован")
-                return False
+            print("Нейрон не активирован")
+            return False
 
 
 class SNeuron(MathNeuron):
@@ -97,35 +104,52 @@ class Layer:
             return None
 
 
-def createNet(beginWith, amountOfLayers):
-    net = []
-    net.append(Layer('S', beginWith, 1))
-    prevAmount = beginWith
-    net.append(Layer('A', beginWith * 2, prevAmount))
-    prevAmount = beginWith * 2
-    net.append(Layer('A', beginWith, prevAmount))
-    tempAmount = beginWith
-    net.append(beginWith)
-    while tempAmount > 2:
-        if tempAmount % 2 == 0:
-            prevAmount = tempAmount
-            tempAmount = tempAmount / 2
-            if tempAmount % 2 != 0:
-                tempAmount = tempAmount + 1
-            net.append(Layer('A', int(tempAmount), int(prevAmount)))
-        else:
-            prevAmount = tempAmount
-            tempAmount = tempAmount // 2 + 1
-            if tempAmount % 2 != 0:
-                tempAmount = tempAmount + 1
-            net.append(Layer('A', int(tempAmount), int(prevAmount)))
+def create_network(N):
+    layers = []
+    layers.append(Layer("S", N, 0))
+    layers.append(Layer("A", 2*N, N))
+    while N > 1:
+        N = int(N/2)
+        layers.append(Layer("R", N, 2*N))
+    return layers
 
-    net.append(Layer('R', 1, 2))
+layers = create_network(64)
 
-    print(f'СОЗДАНА СЕТЬ НЕЙРОНОВ! ПЕРВЫЙ СЛОЙ РАЗМЕРОМ {beginWith}:')
-    print(net)
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
-    return net
+import networkx as nx
+import matplotlib.pyplot as plt
 
 
-createNet(12, 2)
+import pandas as pd
+df = pd.DataFrame(columns=["Neuron", "Weight", "Type"])
+for i in range(len(layers)):
+    for j in range(len(layers[i].neurons)):
+        for k in range(len(layers[i].neurons[j].w)):
+            df = df.append({"Neuron": f"{i}_{j}", "Weight": layers[i].neurons[j].w[k], "Type": layers[i].type}, ignore_index=True)
+print(df)
+
+
+
+G = nx.Graph()
+for i in range(len(layers)):
+    for j in range(len(layers[i].neurons)):
+        G.add_node(f"{i}_{j}")
+for i in range(len(layers)):
+    for j in range(len(layers[i].neurons)):
+        if i != len(layers) - 1:
+            for k in range(len(layers[i+1].neurons)):
+                G.add_edge(f"{i}_{j}", f"{i+1}_{k}")
+plt.figure(figsize=(10, 10), dpi=300, facecolor='w', edgecolor='k')
+colors = []
+for i in range(len(layers)):
+    for j in range(len(layers[i].neurons)):
+        if layers[i].type == "S":
+            colors.append("green")
+        elif layers[i].type == "A":
+            colors.append("blue")
+        elif layers[i].type == "R":
+            colors.append("red")
+nx.draw(G, with_labels=True, node_size=100, alpha=0.5, node_color=colors, font_size=8, font_color="white")
+plt.show()
