@@ -1,73 +1,119 @@
-import random
-ch = 0
-ai = 0
+import random # импорт библиотеки случайных чисел
 the_glasses={1:[1,1,1,2,2,2],
-              2:[1,1,1,2,2,2],
-              3:[1,1,1,2,2,2],
-              4:[1,1,1,2,2,2],
-              5:[1,1,1,2,2,2],
-              6:[1,1,1,2,2,2],
-              7:[1,1,1,2,2,2],
-              8:[1,1,1,2,2,2],
-              9:[1,1,1,2,2,2],
-              10:[1,1,1,2,2,2],
-              11:[1,1,1,2,2,2]}
+             2:[1,1,1,2,2,2],
+             3:[1,1,1,2,2,2],
+             4:[1,1,1,2,2,2],
+             5:[1,1,1,2,2,2],
+             6:[1,1,1,2,2,2],
+             7:[1,1,1,2,2,2],
+             8:[1,1,1,2,2,2],
+             9:[1,1,1,2,2,2],
+             10:[1,1,1,2,2,2],
+             11:[1,1,1,2,2,2]}
 
-used_glasses={}
-situation=11
-ai_is_winner=False
-def move(situation):
-    print("Ходит ИИ:")
-    if situation == 1:
-        the_move = 1
+used_glasses={}  # словарь использованных стаканов
+ai_is_winner = True
+human_wins = 0
+ai_wins = 0
+
+
+def move(situation): # сделать ход (выбрать случайную бумажку из стакана и вернуть значение)
+  if situation == 1:
+    print('Ходит ИИ:')
+    the_move = 1
+  else:
+    if situation != 0:
+      print('Ходит ИИ:')
+      the_move = random.choice(the_glasses[situation])
+  print(f'ИИ выбрал: {the_move}')
+  used_glasses.update({situation: the_move})
+  return the_move
+
+
+def glass_update(used_glasses, the_glasses):
+    if ai_is_winner == True:
+      for key in used_glasses:
+        the_glasses[key].append(used_glasses[key])
     else:
-        the_move = random.choice(the_glasses[situation])
-    print(f"ИИ взял {the_move} палочек.")
-    used_glasses.update({situation: the_move})
-    return the_move
+      for key in used_glasses:
+        if used_glasses[key] in the_glasses[key]:
+          the_glasses[key].remove(used_glasses[key])
+    return the_glasses
 
-def used_glass_fill():
-  pass
-while ch < 10 and ai < 10:
-    situation = 11
-    print(f'Счет: {ch} : {ai}')
-    print(f'На столе {situation} палочек')
-    while situation > 0:
-        if ai_is_winner == False:
-            if situation == 0:
-                print("Пользователь проиграл, ИИ выиграл")
-                ai += 1
-                ai_is_winner = True
-            elif situation == 1:
-                situation -= 1
-                print('Ходит пользователь')
-                print('Пользователю ничего не остаётся, кроме как взять 1 палочку')
-                print(f'На столе {situation} палочек')
-                print("Пользователь проиграл, ИИ выиграл")
-                ai += 1
-                ai_is_winner = True
-                break
+while ai_wins != 10 and human_wins != 10:
+  situation = 11
+  print('---------------------------')
+  print(f'Счёт: Пользователь {human_wins}:{ai_wins} ИИ')
+  print(f'{ai_wins}-й раунд!')
+  print(f'На столе {situation} палочек')
+  print('---------------------------')
 
-        choice = int(input('Сколько палочек взять? 1 или 2?'))
-        while choice != 1 and choice != 2:
-            choice = int(input("Сказано же, одну или две! "))
-        situation = situation - choice
-        print(f'На столе {situation} палочек')
-        if situation == 0:
-            print('ИИ проиграл, пользователь выиграл')
-            ai_is_winner = False
-            ch += 1
+  while situation > 0:
+    if ai_is_winner==True:
+      if situation == 1:
+        choice = 1
+        last_choice = 'Пользователь'
+        print('Ничего не остается, кроме как взять 1 палочку')
+        situation=situation - choice
+      else:
+        choice=int(input('Сколько палочек взять? 1 или 2? '))
+        last_choice = 'Человек'
+        while choice!=1 and choice!=2:
+          choice=int(input("1 или 2, необразованное чмо!!!!"))
+        situation=situation - choice
+        print(f"На столе {situation} палочек.")
+        if situation != 0:
+          situation = situation - move(situation)
+          last_choice = 'ИИ'
+          print(f"На столе {situation} палочек.")
+    else:
+      if situation != 0:
+        situation = situation - move(situation)
+        last_choice = 'ИИ'
+        print(f"На столе {situation} палочек.")
+        if situation == 1:
+          choice = 1
+          last_choice = 'Человек'
+          print('Ничего не остается, кроме как взять 1 палочку')
+          situation=situation - choice
         else:
-            situation = situation - move(situation)
-            print(f'На столе {situation} палочек')
-
-            if situation == 0:
-                print('ИИ проиграл, пользователь выиграл')
-                ai_is_winner = False
-                ch += 1
-if ch == 10:
-    print('Пользователь победил')
-    print('Конец игры')
+          if situation != 0:
+            choice=int(input('Сколько палочек взять? 1 или 2? '))
+            last_choice = 'Человек'
+            while choice!=1 and choice!=2:
+              choice=int(input("1 или 2!!"))
+            situation=situation - choice
+            print(f"На столе {situation} палочек.")
+  print(f'{last_choice} проиграл')
+  if last_choice == 'ИИ':
+    ai_is_winner = False
+    human_wins += 1
+  else:
+    ai_is_winner = True
+    ai_wins += 1
+  glass_update(used_glasses, the_glasses)
+if ai_is_winner == True:
+  print('По итогам игры победил ИИ')
 else:
-    print('ИИ победил')
-    print('Конец игры')
+  print('По итогам игры победил Пользователь')
+  print(the_glasses)
+
+print('---------------------------')
+print(f'Окончательный счёт: Пользователь {human_wins}:{ai_is_winner} ИИ')
+if ai_is_winner > human_wins:
+    print('Победа ИИ')
+else:
+    print('Победил пользователь')
+print('---------------------------')
+print()
+print('Вывод содержимого стаканов')
+for number, content in the_glasses.items():
+    print(f'{number}-й стакан: {content}')
+print('---------------------------')
+print()
+print('Вывод шанса выпадения 1 или 2 для каждого стакана')
+for number, content in the_glasses.items():
+    try:
+        print(f'{number}-й стакан:\nШанс выпадения 1 - {round((content.count(1)/len(content))*100, 1)}%\nШанс выпадения 2 - {round((content.count(2)/len(content))*100, 1)}%')
+    except:
+        print(f'{number}-й стакан:\nШанс выпадения 1 - 0.0%\nШанс выпадения 2 - 0.0%')
