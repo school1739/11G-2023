@@ -1,1 +1,1 @@
-print ('Hello World!') #Nechaev Sergey <3
+print ('Hello World!') #Nechaev Sergey >:(
