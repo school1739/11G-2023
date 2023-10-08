@@ -106,3 +106,4 @@ for number, content in stakanchiki.items():
         print(f'{number}-й стакан:\nШанс выпадения 1 - {round((content.count(1)/len(content))*100, 1)}%\nШанс выпадения 2 - {round((content.count(2)/len(content))*100, 1)}%')
     except:
         print(f'{number}-й стакан:\nШанс выпадения 1 - 0.0%\nШанс выпадения 2 - 0.0%')
+
