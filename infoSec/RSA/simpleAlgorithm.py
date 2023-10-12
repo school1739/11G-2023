@@ -1,0 +1,82 @@
+import math
+from random import randrange, getrandbits
+
+
+def gcd(m, n):
+    while m != n:
+        if m > n:
+            m = m - n
+        else:
+            n = n - m
+    return n
+
+def isPrime(n, k=128):
+    if n == 2 or n == 3:
+        return True
+    if n <= 1 or n % 2 == 0:
+        return False
+    s = 0
+    r = n - 1
+    while r & 1 == 0:
+        s += 1
+        r //= 2
+    for _ in range(k):
+        a = randrange(2, n - 1)
+        x = pow(a, r, n)
+        if x != 1 and x != n - 1:
+            j = 1
+            while j < s and x != n - 1:
+                x = pow(x, 2, n)
+                if x == 1:
+                    return False
+                j += 1
+            if x != n - 1:
+                return False
+    return True
+def generatePrePrime(length):
+    p = getrandbits(length)
+    p |= (1 << length - 1) | 1
+    return p
+
+def generatePrime(length):
+    p = 4
+    while not isPrime(p, 128):
+        p = generatePrePrime(length)
+    return p
+
+# step 1
+p = generatePrime(3)
+q = generatePrime(3)
+
+# step 2
+n = p * q
+print("n =", n)
+
+# step 3
+phi = (p - 1) * (q - 1)
+
+# step 4
+e = 2
+while (e < phi):
+    if (math.gcd(e, phi) == 1):
+        break
+    else:
+        e += 1
+
+print("e =", e)
+# step 5
+k = 2
+d = ((k * phi) + 1) / e
+print("d =", d)
+print(f'Public key: {e, n}')
+print(f'Private key: {d, n}')
+
+
+msg = 12
+print(f'Original message:{msg}')
+
+C = msg ** e % n
+print(f'Encrypted message: {C}')
+
+M = C ** d % n
+print(f'Decrypted message: {M}')
