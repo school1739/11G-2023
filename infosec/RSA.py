@@ -65,31 +65,29 @@ def get_nod(a,b):
             b -= a
     return a
 
+def generatePrime(m):
+    while True:
+        prime_candidate = getLowLevelPrime(m)
+        if not isMillerRabinPassed(prime_candidate):
+            continue
+        else:
+            return prime_candidate
 
-while True:
-    m = 129
-    prime_candidate = getLowLevelPrime(m)
-    if not isMillerRabinPassed(prime_candidate):
-        continue
-    else:
-        p = prime_candidate
-        break
+def generateKeys():
+    p = generatePrime(129)
+    q = generatePrime(129)
+    n = p*q
+    fin = (p-1)*(q-1)
+    while True:
+        e = random.randrange(1,fin)
+        if get_nod(e,fin) != 1:
+            continue
+        else:
+            break
+    d = fin * e
+    return [(e,n),(d,n)]
 
-while True:
-    m = 129
-    prime_candidate = getLowLevelPrime(m)
-    if not isMillerRabinPassed(prime_candidate):
-        continue
-    else:
-        q = prime_candidate
-        break
+keys = generateKeys()
 
-n = p*q
-fin = (p-1)*(q-1)
-
-while True:
-    e = random.randrange(1,fin)
-    if get_nod(e,fin) != 1:
-        continue
-    else:
-        break
+public = open('publickey.txt', 'w').write(str(keys[0]))
+private = open('privatekey.txt', 'w').write(str(keys[1]))
