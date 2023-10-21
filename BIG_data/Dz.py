@@ -63,3 +63,6 @@ def calc_det(matrix):
 
 
 print(calc_det(the_matrix))
+
+
+
