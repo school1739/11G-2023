@@ -1,6 +1,5 @@
 #Kalantaryan Meri
-
-
+import os
 
 from datetime import datetime
 from ftplib import FTP
