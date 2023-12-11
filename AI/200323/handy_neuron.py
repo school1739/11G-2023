@@ -1,4 +1,5 @@
 import random
+from idlelib.iomenu import encoding
 
 
 class MathNeuron:
@@ -13,6 +14,9 @@ class MathNeuron:
         # print all inputs and their weights like "Input 1 = 0.25"
         for i in range(x_count):
             print(f"Вход {i}: {self.w[i]}")
+            the_file()
+            the_file.write(f"Вход {i}: {self.w[i]}")
+            the_file.close()
 
     def get_info(self):
         print(f"Нейрон с количеством входов {self.x_count}, весом {self.w} и порогом {self.theta}")
@@ -123,6 +127,8 @@ def create_network(N):
     return layers
 
 
+the_file = open('./AI_log.log', 'w', encoding='utf8')
+
 layers = create_network(64)
 
 import warnings
@@ -135,25 +141,29 @@ import matplotlib.pyplot as plt
 # make a pandas dataframe with all neurons and their weights separated by groups based on type of neuron
 import pandas as pd
 
-df = pd.DataFrame(columns=["Neuron", "Weight", "Type"])
-for i in range(len(layers)):
-    for j in range(len(layers[i].neurons)):
-        for k in range(len(layers[i].neurons[j].w)):
+df = pd.DataFrame(columns=["Neuron", "Weight", "Type"])  # Создаем DataFrame
+for i in range(len(layers)):  # итерируемся по слоям
+    for j in range(len(layers[i].neurons)):  # итерируемся по нейронам
+        for k in range(len(layers[i].neurons[j].w)):  # итерируемся по весам
+            # Создание новой строки DataFrame  с номером нейрона, весом и типом нейрона
             df = df.append({"Neuron": f"{i}_{j}", "Weight": layers[i].neurons[j].w[k], "Type": layers[i].type},
                            ignore_index=True)
 print(df)
 
 # plot a graph of network with networkx where color of node based on type of neuron (S - green, A - blue, R - red)
-G = nx.Graph()
-for i in range(len(layers)):
-    for j in range(len(layers[i].neurons)):
-        G.add_node(f"{i}_{j}")
-for i in range(len(layers)):
-    for j in range(len(layers[i].neurons)):
+G = nx.Graph()  # Создаем новый граф
+for i in range(len(layers)):  # итерируемся по слоям
+    for j in range(len(layers[i].neurons)):  # итерируемся по нейронам в слоях
+        G.add_node(f"{i}_{j}")  # рисуем кружочки (нод) для каждого нейрона
+for i in range(len(layers)):  # итерируемся по слоям снова
+    for j in range(len(layers[i].neurons)):  # итерируемся по нейронам в первом слое
         if i != len(layers) - 1:
-            for k in range(len(layers[i + 1].neurons)):
-                G.add_edge(f"{i}_{j}", f"{i + 1}_{k}")
+            for k in range(len(layers[i + 1].neurons)):  # итерируемся по нейронам в следующем слое
+                G.add_edge(f"{i}_{j}", f"{i + 1}_{k}")  # рисуем ребро(грань) между нейронами 1 и 2 слоев
+# определяем размер изображения, цвета граней и задника
 plt.figure(figsize=(10, 10), dpi=300, facecolor='w', edgecolor='k')
+
+# определяем цвета нодов нейронров в зависимости от типа
 colors = []
 for i in range(len(layers)):
     for j in range(len(layers[i].neurons)):
@@ -163,6 +173,7 @@ for i in range(len(layers)):
             colors.append("blue")
         elif layers[i].type == "R":
             colors.append("red")
-nx.draw(G, with_labels=True, node_size=100, alpha=0.5, node_color=colors, font_size=8, font_color="white")
-plt.show()
 
+# Определяем внешний вид нейрона
+nx.draw(G, with_labels=True, node_size=100, alpha=0.5, node_color=colors, font_size=8, font_color="white")
+plt.show()  # показываем граф
